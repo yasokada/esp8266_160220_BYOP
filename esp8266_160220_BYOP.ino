@@ -6,8 +6,10 @@
 
 
 /*
+ * v0.2 2016 Feb 20
+ *  - add Serial_replyToCommand()
  * v0.1 2016 Feb 20
- *  - add Serial_readCommand();
+ *  - add Serial_readCommand()
  *  - add serial setup
  */
 
@@ -47,9 +49,18 @@ String Serial_readCommand()
   }
 }
 
+void Serial_replyToCommand(String cmdline)
+{
+  if (cmdline.equals("hello")) {
+    Serial.println("hello, 7of9");
+  } else {
+    Serial.println(cmdline);    
+  }
+}
+
 void loop() {
   String rcvd = Serial_readCommand();
   if (rcvd.length() > 0) {
-    Serial.println(rcvd); 
+    Serial_replyToCommand(rcvd);
   }
 }
