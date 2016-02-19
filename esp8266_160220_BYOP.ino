@@ -7,6 +7,7 @@
 
 /*
  * v0.2 2016 Feb 20
+ *  - fix Serial_readCommand() to handle CR code
  *  - add Serial_replyToCommand()
  * v0.1 2016 Feb 20
  *  - add Serial_readCommand()
@@ -40,6 +41,9 @@ String Serial_readCommand()
   char code;
   while(Serial.available() > 0) {
     code = Serial.read();
+    if (code == kCodeCR) {
+      continue;
+    }
     if (code == kCodeLF) {
       s_serialClearOnNext = true;
       return s_serialReceiveBuff;
