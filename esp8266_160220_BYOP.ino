@@ -7,6 +7,7 @@
 
 /*
  * v0.11 2016 Feb 20
+ *  - display "ready" on 8x2 LCD just after power on
  *  - add [esp8266_160217_AQM0802.ino] to display characters on 8x2 LCD
  * v0.10 2016 Feb 20
  *  - fix proc_bye() to use nickName
@@ -45,7 +46,7 @@
  *  - add serial setup
  */
 
-
+#include <Wire.h> // for 8x2 LCD
 #include "dataStructure.h"
 
 //-------------------------------------------------------------------------
@@ -70,6 +71,12 @@ void debug_outputDebugString(String prefix, String msg)
 
 void setup() {
   Serial.begin(115200); 
+  Wire.begin();
+  AQM0802_Initialize(/* cursorOn=*/true, /* cursorPosOn=*/true, /* contrast=*/7);
+//  Test_AQM0802_cursorOn_posOff_contrastLow();
+//  Test_AQM0802_cursorOn_posOn_contrastLow();
+//  Test_AQM0802_cursorOn_posOn_contrastHigh();  
+  AQM0802_PutMessage("ready", /* x_st1=*/1, /* y_st1=*/1);
 }
 
 void loop() {
