@@ -7,6 +7,7 @@
 
 /*
  * v0.10 2016 Feb 20
+ *  - fix proc_bye() to use nickName
  *  - move [kCmdList] and [CMD_e] to [dataStructure.h]
  *  - update proc_hello() to reply in Serial
  *  - add [message_t]
@@ -121,7 +122,7 @@ bool proc_post(String csvline)
 
 bool proc_bye(String csvline)
 {
-  Serial.println("bye,7of9");  
+  Serial.println(kCmdList[CMD_BYE] + "," + g_owner.nickName);
 }
 
 
