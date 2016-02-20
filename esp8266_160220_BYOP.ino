@@ -7,6 +7,7 @@
 
 /*
  * v0.13 2016 Feb. 21
+ *  - add (msgStorageLib)
  *  - change member variable names of [message_t]
  * v0.12 2016 Feb. 20
  *  - display reply on LCD in proc_bye()
