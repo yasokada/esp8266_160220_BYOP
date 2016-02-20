@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.8 2016 Feb 20
+ *  - add proc_check(), proc_get(), proc_post(), proc_bye()
  * v0.7 2016 Feb 20
  *  - add [s_owner]
  *  - add [Pizero_owner_t]
@@ -104,9 +106,29 @@ bool proc_hello(String csvline)
   debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
   debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
 
-  // TODO: 0m > display "Hello,[nickName]" to LCD
+  // TODO: 0m > display "Hello,<CR><LF>[nickName]" to LCD
 
   return true;
+}
+
+bool proc_check(String csvline)
+{
+  debug_outputDebugString("proc_check", "line116 > start");
+}
+
+bool proc_get(String csvline)
+{
+  debug_outputDebugString("proc_get", "line121 > start");
+}
+
+bool proc_post(String csvline)
+{
+  debug_outputDebugString("proc_post", "line126 > start");
+}
+
+bool proc_bye(String csvline)
+{
+    Serial.println("bye,7of9");  
 }
 
 void Serial_replyToCommand(String cmdline)
@@ -125,8 +147,17 @@ void Serial_replyToCommand(String cmdline)
   case CMD_HELLO:
     proc_hello(cmdline);
     break;
+  case CMD_CHECK:
+    proc_check(cmdline);
+    break;
+  case CMD_GET:
+    proc_get(cmdline);
+    break;
+  case CMD_POST:
+    proc_post(cmdline);
+    break;
   case CMD_BYE:
-    Serial.println("bye,7of9");
+    proc_bye(cmdline);
     break;
   default:
     // do nothing
