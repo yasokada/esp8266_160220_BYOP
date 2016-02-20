@@ -1,6 +1,9 @@
 #include <Wire.h>
 
 /*
+ * v0.4 2016 Feb. 20
+ *  - add [kOffset_addr2ndline]
+ *  - update AQM0802_PutMessage() for auto wrapping (more than 8 characters)
  * v0.3 2016 Feb. 18
  *  - add message display function
  *    + add Test_AQM0802_showDateTime()
@@ -25,6 +28,8 @@ static const uint8_t kDeviceAddr = 0x3e;
 
 static const int kMaxXsize = 8;
 static const int kMaxYsize = 2;
+
+static const int kOffset_addr2ndline = 0x40;
 
 static uint8_t ControlByteList[] = {
   0x00, // Instruction write operation. ( Co=0, Rs=0 )
@@ -134,11 +139,40 @@ void AQM0802_PutMessage(String msg, uint8_t x_st1, uint8_t y_st1)
     return; // error
   }
 
-  uint8_t pos = 0x80 | ((y_st1 - 1) * 0x40);
-  pos = pos | (x_st1 - 1);
+  uint8_t pos;
 
+#if 1
+  if (msg.length() <= kMaxXsize) {
+    pos = 0x80 | ((y_st1 - 1) * kOffset_addr2ndline);
+    pos = pos | (x_st1 - 1);
+    AQM0802_WriteSingleInstruction(pos);
+    AQM0802_WriteData( (uint8_t *)msg.c_str(), msg.length() );
+    return;
+  }
+
+  char szbuf[10] = { 0 };
+  // 1st line
+  strncpy(szbuf, msg.c_str(), kMaxXsize);
+  pos = 0x80 | ((y_st1 - 1) * kOffset_addr2ndline);
+  pos = pos | (x_st1 - 1);
+  AQM0802_WriteSingleInstruction(pos);
+  AQM0802_WriteData( (uint8_t *)szbuf, strlen(szbuf) );
+
+  // 2nd line
+  msg = msg.substring(kMaxXsize); // remove string for 1st line
+  memset(szbuf, 0, sizeof(szbuf));
+  strncpy( szbuf, msg.c_str(), msg.length() );
+  pos = 0x80 | ((y_st1 - 1) * kOffset_addr2ndline);
+  pos += kOffset_addr2ndline; // for 2nd line, 1st column
+//  pos = pos | (x_st1 - 1);  
+  AQM0802_WriteSingleInstruction(pos);
+  AQM0802_WriteData( (uint8_t *)szbuf, strlen(szbuf) );
+
+#else
   AQM0802_WriteSingleInstruction(pos);
   AQM0802_WriteData( (uint8_t *)msg.c_str(), msg.length() );  
+#endif
+
 }
 
 //---------------------------------------------------------------------------------
