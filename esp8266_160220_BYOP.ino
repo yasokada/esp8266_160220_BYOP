@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.10 2016 Feb 20
+ *  - add [message_t]
  * v0.9 2016 Feb 20
  *  - move [g_owner] to dataLib
  *  - move [Pizero_owner_t] to dataLib
@@ -114,7 +116,7 @@ bool proc_post(String csvline)
 
 bool proc_bye(String csvline)
 {
-    Serial.println("bye,7of9");  
+  Serial.println("bye,7of9");  
 }
 
 
