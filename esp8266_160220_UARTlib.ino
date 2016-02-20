@@ -7,6 +7,9 @@
  *   - add Serial_readCommand()
  */
 
+
+#include "dataStructure.h"
+
 //-------------------------------------------------------------------------
 // static declarations
 
@@ -17,23 +20,6 @@ static String s_serialReceiveBuff = "";
 static bool s_serialClearOnNext = false; // if true, s_serialReceiveBuff will be deleted
 //-------------------------------------------------------------------------
 
-static String kCmdList[] = {
-  "hello",
-  "check",
-  "get",
-  "post",
-  "bye",
-};
-
-enum tag_CMD_e {
-  CMD_HELLO,
-  CMD_CHECK,
-  CMD_GET,
-  CMD_POST,
-  CMD_BYE,
-  // below is special index
-  SIZE_CMD = CMD_BYE + 1,
-} CMD_e;
 
 String Serial_readCommand()
 {

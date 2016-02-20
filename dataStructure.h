@@ -16,4 +16,23 @@ typedef struct tag_message_t {
   bool isSecret; // sercrete message or normal message
 } message_t;
 
+String kCmdList[] = {
+  "hello",
+  "check",
+  "get",
+  "post",
+  "bye",
+};
+
+enum tag_CMD_e {
+  CMD_HELLO,
+  CMD_CHECK,
+  CMD_GET,
+  CMD_POST,
+  CMD_BYE,
+  // below is special index
+  SIZE_CMD = CMD_BYE + 1,
+} CMD_e;
+
+
 #endif 
