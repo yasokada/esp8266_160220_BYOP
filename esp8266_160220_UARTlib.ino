@@ -44,3 +44,37 @@ String Serial_readCommand()
 }
 
 
+void Serial_replyToCommand(String cmdline)
+{  
+  String strcmd = extractCsvRow(cmdline, 0);
+  if (strcmd.length() == 0) {
+    return; // is not a command
+  }
+
+  int cmdidx = getCommandIdx(strcmd);
+  if (cmdidx < 0) {
+    Serial.println(cmdline);    
+  }
+
+  switch(cmdidx) {
+  case CMD_HELLO:
+    proc_hello(cmdline);
+    break;
+  case CMD_CHECK:
+    proc_check(cmdline);
+    break;
+  case CMD_GET:
+    proc_get(cmdline);
+    break;
+  case CMD_POST:
+    proc_post(cmdline);
+    break;
+  case CMD_BYE:
+    proc_bye(cmdline);
+    break;
+  default:
+    // do nothing
+    break;
+  }
+}
+

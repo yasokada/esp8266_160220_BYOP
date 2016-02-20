@@ -7,6 +7,7 @@
 
 /*
  * v0.8 2016 Feb 20
+ *  - move Serial_replyToCommand() to UARTlib
  *  - add proc_check(), proc_get(), proc_post(), proc_bye()
  * v0.7 2016 Feb 20
  *  - add [s_owner]
@@ -129,40 +130,6 @@ bool proc_post(String csvline)
 bool proc_bye(String csvline)
 {
     Serial.println("bye,7of9");  
-}
-
-void Serial_replyToCommand(String cmdline)
-{  
-  String strcmd = extractCsvRow(cmdline, 0);
-  if (strcmd.length() == 0) {
-    return; // is not a command
-  }
-
-  int cmdidx = getCommandIdx(strcmd);
-  if (cmdidx < 0) {
-    Serial.println(cmdline);    
-  }
-
-  switch(cmdidx) {
-  case CMD_HELLO:
-    proc_hello(cmdline);
-    break;
-  case CMD_CHECK:
-    proc_check(cmdline);
-    break;
-  case CMD_GET:
-    proc_get(cmdline);
-    break;
-  case CMD_POST:
-    proc_post(cmdline);
-    break;
-  case CMD_BYE:
-    proc_bye(cmdline);
-    break;
-  default:
-    // do nothing
-    break;
-  }
 }
 
 void loop() {
