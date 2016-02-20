@@ -69,7 +69,7 @@ void Serial_replyToCommand(String cmdline)
     return; // is not a command
   }
 
-  int cmdidx = getCommandIdx(strcmd);
+  int cmdidx = Serial_getCommandIdx(strcmd);
   if (cmdidx < 0) {
     Serial.println(cmdline);    
   }
@@ -96,7 +96,7 @@ void Serial_replyToCommand(String cmdline)
   }
 }
 
-signed int getCommandIdx(String aCmd)
+signed int Serial_getCommandIdx(String aCmd)
 {
   aCmd.toLowerCase();
   for(int idx = 0; idx < SIZE_CMD; idx++) {

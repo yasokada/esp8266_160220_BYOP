@@ -7,7 +7,7 @@
 
 /*
  * v0.8 2016 Feb 20
- *  - move getCommandIdx() and those related
+ *  - move Serial_getCommandIdx() and those related
  *  - move Serial_replyToCommand() to UARTlib
  *  - add proc_check(), proc_get(), proc_post(), proc_bye()
  * v0.7 2016 Feb 20
