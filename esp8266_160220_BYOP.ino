@@ -76,7 +76,8 @@ void setup() {
 //  Test_AQM0802_cursorOn_posOff_contrastLow();
 //  Test_AQM0802_cursorOn_posOn_contrastLow();
 //  Test_AQM0802_cursorOn_posOn_contrastHigh();  
-  AQM0802_PutMessage("ready", /* x_st1=*/1, /* y_st1=*/1);
+
+  AQM0802_PutMessage("...........ready", /* x_st1=*/1, /* y_st1=*/1);
 }
 
 void loop() {
@@ -106,10 +107,12 @@ bool proc_hello(String csvline)
 //  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
 //  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
 
-  Serial.println(kCmdList[CMD_HELLO] + "," + g_owner.nickName);
+  String reply = kCmdList[CMD_HELLO] + "," + g_owner.nickName;
 
+  Serial.println(reply);
 
-  // TODO: 0m > display "Hello,<CR><LF>[nickName]" to LCD
+  AQM0802_Clear();
+  AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);
 
   return true;
 }
