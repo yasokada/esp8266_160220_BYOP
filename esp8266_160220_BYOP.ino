@@ -7,6 +7,7 @@
 
 /*
  * v0.8 2016 Feb 20
+ *  - move getCommandIdx() and those related
  *  - move Serial_replyToCommand() to UARTlib
  *  - add proc_check(), proc_get(), proc_post(), proc_bye()
  * v0.7 2016 Feb 20
@@ -36,24 +37,6 @@
 //-------------------------------------------------------------------------
 // static declrations and enums
 
-static String kCmdList[] = {
-  "hello",
-  "check",
-  "get",
-  "post",
-  "bye",
-};
-
-enum tag_CMD_e {
-  CMD_HELLO,
-  CMD_CHECK,
-  CMD_GET,
-  CMD_POST,
-  CMD_BYE,
-  // below is special index
-  SIZE_CMD = CMD_BYE + 1,
-} CMD_e;
-
 // Information of owner
 typedef struct tag_pizero_owner_t { 
   String serialNo;
@@ -78,16 +61,6 @@ void setup() {
   Serial.begin(115200); 
 }
 
-signed int getCommandIdx(String aCmd)
-{
-  aCmd.toLowerCase();
-  for(int idx = 0; idx < SIZE_CMD; idx++) {
-    if ( aCmd.equalsIgnoreCase(kCmdList[idx]) ) {
-      return idx;
-    }
-  }
-  return -1;
-}
 
 bool proc_hello(String csvline)
 {  
