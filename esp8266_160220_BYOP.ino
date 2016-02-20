@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.13 2016 Feb. 21
+ *  - change member variable names of [message_t]
  * v0.12 2016 Feb. 20
  *  - display reply on LCD in proc_bye()
  * v0.11 2016 Feb 20
