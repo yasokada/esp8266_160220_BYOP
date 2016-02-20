@@ -56,11 +56,20 @@ void debug_outputDebugString(String prefix, String msg)
 }
 
 //-------------------------------------------------------------------------
+// functoins related to sequence
 
 void setup() {
   Serial.begin(115200); 
 }
 
+void loop() {
+  String rcvd = Serial_readCommand();
+  if (rcvd.length() > 0) {
+    Serial_replyToCommand(rcvd);
+  }
+}
+
+//-------------------------------------------------------------------------
 
 bool proc_hello(String csvline)
 {  
@@ -72,13 +81,13 @@ bool proc_hello(String csvline)
     return false;
   }
 
-  debug_outputDebugString("proc_hello", "line89 > " + csvline);
+//  debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
   s_owner.nickName = nickname;
   s_owner.serialNo = serno;
   
-  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
-  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
+//  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
+//  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
 
   // TODO: 0m > display "Hello,<CR><LF>[nickName]" to LCD
 
@@ -105,9 +114,4 @@ bool proc_bye(String csvline)
     Serial.println("bye,7of9");  
 }
 
-void loop() {
-  String rcvd = Serial_readCommand();
-  if (rcvd.length() > 0) {
-    Serial_replyToCommand(rcvd);
-  }
-}
+
