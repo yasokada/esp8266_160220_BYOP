@@ -7,6 +7,8 @@
 
 /*
  * v0.10 2016 Feb 20
+ *  - move [kCmdList] and [CMD_e] to [dataStructure.h]
+ *  - update proc_hello() to reply in Serial
  *  - add [message_t]
  * v0.9 2016 Feb 20
  *  - move [g_owner] to dataLib
@@ -93,6 +95,9 @@ bool proc_hello(String csvline)
   
 //  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
 //  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
+
+  Serial.println(kCmdList[CMD_HELLO] + "," + g_owner.nickName);
+
 
   // TODO: 0m > display "Hello,<CR><LF>[nickName]" to LCD
 
