@@ -7,6 +7,8 @@
 
 /*
  * v0.7 2016 Feb 20
+ *  - add [s_owner]
+ *  - add [Pizero_owner_t]
  *  - add proc_hello();
  *  - add debug_outputDebugString();
  * v0.6 2016 Feb 20
@@ -49,6 +51,14 @@ enum tag_CMD_e {
   SIZE_CMD = CMD_BYE + 1,
 } CMD_e;
 
+// Information of owner
+typedef struct tag_pizero_owner_t { 
+  String serialNo;
+  String nickName;
+} Pizero_owner_t;
+
+Pizero_owner_t s_owner;
+
 //-------------------------------------------------------------------------
 // for debug
 
@@ -88,6 +98,8 @@ bool proc_hello(String csvline)
 
   debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
+  s_owner.nickName = nickName;
+  
 #if 1
   Serial.println("Your S/N:" + serNo);
   Serial.println("Your name:" + nickName);
