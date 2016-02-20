@@ -141,7 +141,6 @@ void AQM0802_PutMessage(String msg, uint8_t x_st1, uint8_t y_st1)
 
   uint8_t pos;
 
-#if 1
   if (msg.length() <= kMaxXsize) {
     pos = 0x80 | ((y_st1 - 1) * kOffset_addr2ndline);
     pos = pos | (x_st1 - 1);
@@ -167,12 +166,6 @@ void AQM0802_PutMessage(String msg, uint8_t x_st1, uint8_t y_st1)
 //  pos = pos | (x_st1 - 1);  
   AQM0802_WriteSingleInstruction(pos);
   AQM0802_WriteData( (uint8_t *)szbuf, strlen(szbuf) );
-
-#else
-  AQM0802_WriteSingleInstruction(pos);
-  AQM0802_WriteData( (uint8_t *)msg.c_str(), msg.length() );  
-#endif
-
 }
 
 //---------------------------------------------------------------------------------
