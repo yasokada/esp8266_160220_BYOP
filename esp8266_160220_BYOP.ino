@@ -6,7 +6,10 @@
 
 
 /*
- * v0.6 2016 Feb 21
+ * v0.7 2016 Feb 20
+ *  - add proc_hello();
+ *  - add debug_outputDebugString();
+ * v0.6 2016 Feb 20
  *  - UARTlib > extractCsvRow: fix bug > "AAA" return "AAA","AAA","AAA"
  * v0.5 2016 Feb 20
  *  - add kCmdList String array and CMD_e enum
@@ -47,6 +50,16 @@ enum tag_CMD_e {
 } CMD_e;
 
 //-------------------------------------------------------------------------
+// for debug
+
+void debug_outputDebugString(String prefix, String msg)
+{
+  // this function is used to turn off/on all the debug prints
+
+  Serial.println("[DEBUG] " + prefix + " > " + msg);
+}
+
+//-------------------------------------------------------------------------
 
 void setup() {
   Serial.begin(115200); 
@@ -64,12 +77,7 @@ signed int getCommandIdx(String aCmd)
 }
 
 bool proc_hello(String csvline)
-{
-#if 1
-  Test_extractCsvRow();
-  return false;
-#endif 
-  
+{  
   String cmdstr = extractCsvRow(csvline, 0);
   String serNo = extractCsvRow(csvline, 1);
   String nickName = extractCsvRow(csvline, 2);
@@ -77,6 +85,8 @@ bool proc_hello(String csvline)
   if (nickName.length() == 0) {
     return false;
   }
+
+  debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
 #if 1
   Serial.println("Your S/N:" + serNo);
