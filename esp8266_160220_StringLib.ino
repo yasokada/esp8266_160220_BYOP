@@ -2,6 +2,8 @@
 // String library
 
 /*
+ * v0.2 2016 Feb 20
+ *  - extractCsvRow: fix bug > "AAA" return "AAA","AAA","AAA"
  * v0.1 2016 Feb 20
  *  - add Test_extractCsvRow()
  *  - add extractCsvRow()
@@ -11,10 +13,21 @@
 
 void Test_extractCsvRow()
 {
+  // test1 >> full
   String csvline = "AAA,BBB,CCC";
   String tmp;
   for(int idx = 0; idx < 3; idx++) {
     tmp = extractCsvRow(csvline, idx);
+    Serial.println(tmp);    
+  }
+
+  // test2 >> only 1st
+  csvline = "AAA";
+  for(int idx = 0; idx < 3; idx++) {
+    tmp = extractCsvRow(csvline, idx);
+    if (tmp.length() == 0) {
+      continue;
+    }
     Serial.println(tmp);    
   }
 }
@@ -36,6 +49,11 @@ String extractCsvRow(String srcline, int getIdx)
       }
       posIdx++;
     }
+
+    if (posIdx != getIdx) {
+      return "";
+    }
+    
     commaPos = srcline.indexOf(',', nextOfComma);
     if (commaPos < 0) {
       return srcline.substring(nextOfComma);

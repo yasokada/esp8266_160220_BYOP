@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.6 2016 Feb 21
+ *  - UARTlib > extractCsvRow: fix bug > "AAA" return "AAA","AAA","AAA"
  * v0.5 2016 Feb 20
  *  - add kCmdList String array and CMD_e enum
  *  - move extractCsvRow() and those related to StringLib
@@ -61,6 +63,29 @@ signed int getCommandIdx(String aCmd)
   return -1;
 }
 
+bool proc_hello(String csvline)
+{
+#if 1
+  Test_extractCsvRow();
+  return false;
+#endif 
+  
+  String cmdstr = extractCsvRow(csvline, 0);
+  String serNo = extractCsvRow(csvline, 1);
+  String nickName = extractCsvRow(csvline, 2);
+
+  if (nickName.length() == 0) {
+    return false;
+  }
+
+#if 1
+  Serial.println("Your S/N:" + serNo);
+  Serial.println("Your name:" + nickName);
+#endif
+
+  return true;
+}
+
 void Serial_replyToCommand(String cmdline)
 {  
   String strcmd = extractCsvRow(cmdline, 0);
@@ -75,7 +100,7 @@ void Serial_replyToCommand(String cmdline)
 
   switch(cmdidx) {
   case CMD_HELLO:
-    Serial.println("hello,7of9");
+    proc_hello(cmdline);
     break;
   case CMD_BYE:
     Serial.println("bye,7of9");
