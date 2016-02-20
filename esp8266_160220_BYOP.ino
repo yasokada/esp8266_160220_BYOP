@@ -7,6 +7,7 @@
 
 /*
  * v0.5 2016 Feb 20
+ *  - add kCmdList String array and CMD_e enum
  *  - move extractCsvRow() and those related to StringLib
  * v0.4 2016 Feb 20
  *  - add extractCsvRow() / Test_extractCsvRow()
@@ -23,23 +24,46 @@
  */
 
 //-------------------------------------------------------------------------
+// static declrations
+
+static String kCmdList[] = {
+  "hello",
+  "check",
+  "get",
+  "post",
+  "bye",
+};
+
+enum tag_CMD_e {
+  CMD_HELLO,
+  CMD_CHECK,
+  CMD_GET,
+  CMD_POST,
+  CMD_BYE,
+} CMD_e;
+
 //-------------------------------------------------------------------------
 
 void setup() {
   Serial.begin(115200); 
 }
 
+signed int getCommandIdx(String aCmd)
+{
+  aCmd.toLowerCase();
+}
 
 void Serial_replyToCommand(String cmdline)
 {  
-  if (cmdline.equalsIgnoreCase("hello")) {
+  String strcmdr = extractCsvRow(cmdline, 0);
+  if (strcmdr.length() == 0) {
+    return; // is not a command
+  }
+
+  if (strcmdr.equalsIgnoreCase("hello")) {
     Serial.println("hello, 7of9");
   } else {
-#if 1
-    Test_extractCsvRow();
-#else      
-    Serial.println(cmdline);    
-#endif    
+    Serial.println(cmdline);
   }
 }
 
