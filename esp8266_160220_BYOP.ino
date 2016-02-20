@@ -89,21 +89,22 @@ signed int getCommandIdx(String aCmd)
 bool proc_hello(String csvline)
 {  
   String cmdstr = extractCsvRow(csvline, 0);
-  String serNo = extractCsvRow(csvline, 1);
-  String nickName = extractCsvRow(csvline, 2);
+  String serno = extractCsvRow(csvline, 1);
+  String nickname = extractCsvRow(csvline, 2);
 
-  if (nickName.length() == 0) {
+  if (nickname.length() == 0) {
     return false;
   }
 
   debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
-  s_owner.nickName = nickName;
+  s_owner.nickName = nickname;
+  s_owner.serialNo = serno;
   
-#if 1
-  Serial.println("Your S/N:" + serNo);
-  Serial.println("Your name:" + nickName);
-#endif
+  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
+  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
+
+  // TODO: 0m > display "Hello,[nickName]" to LCD
 
   return true;
 }
