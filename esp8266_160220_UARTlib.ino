@@ -1,4 +1,6 @@
 
+// UART communication library
+
 /*
  * v0.1 2016 Feb 20
  *   - add [kCodeCR], [kCodeLF], [s_serialReceiveBuff], [s_serialClearOnNext]

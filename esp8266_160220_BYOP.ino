@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.5 2016 Feb 20
+ *  - move extractCsvRow() and those related to StringLib
  * v0.4 2016 Feb 20
  *  - add extractCsvRow() / Test_extractCsvRow()
  * v0.3 2016 Feb 20
