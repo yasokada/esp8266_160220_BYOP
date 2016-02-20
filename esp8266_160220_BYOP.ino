@@ -21,13 +21,6 @@
  */
 
 //-------------------------------------------------------------------------
-
-//-------------------------------------------------------------------------
-
-void setup() {
-  Serial.begin(115200); 
-}
-
 void Test_extractCsvRow()
 {
   String csvline = "AAA,BBB,CCC";
@@ -62,6 +55,12 @@ String extractCsvRow(String srcline, int getIdx)
       return srcline.substring(nextOfComma, commaPos);
     }
 }
+//-------------------------------------------------------------------------
+
+void setup() {
+  Serial.begin(115200); 
+}
+
 
 void Serial_replyToCommand(String cmdline)
 {  
