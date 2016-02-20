@@ -14,7 +14,7 @@ static const char kCodeCR = '\r';
 static const char kCodeLF = '\n';
 
 static String s_serialReceiveBuff = "";
-static bool s_serialClearOnNext = false;
+static bool s_serialClearOnNext = false; // if true, s_serialReceiveBuff will be deleted
 //-------------------------------------------------------------------------
 
 static String kCmdList[] = {
