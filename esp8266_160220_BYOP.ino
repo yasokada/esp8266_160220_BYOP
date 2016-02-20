@@ -6,12 +6,16 @@
 
 
 /*
+ * v0.9 2016 Feb 20
+ *  - move [g_owner] to dataLib
+ *  - move [Pizero_owner_t] to dataLib
+ *  - add dataLib, dataStructure.h
  * v0.8 2016 Feb 20
  *  - move Serial_getCommandIdx() and those related
  *  - move Serial_replyToCommand() to UARTlib
  *  - add proc_check(), proc_get(), proc_post(), proc_bye()
  * v0.7 2016 Feb 20
- *  - add [s_owner]
+ *  - add [g_owner]
  *  - add [Pizero_owner_t]
  *  - add proc_hello();
  *  - add debug_outputDebugString();
@@ -34,16 +38,15 @@
  *  - add serial setup
  */
 
+
+#include "dataStructure.h"
+
 //-------------------------------------------------------------------------
-// static declrations and enums
+// static declarations and enums
 
-// Information of owner
-typedef struct tag_pizero_owner_t { 
-  String serialNo;
-  String nickName;
-} Pizero_owner_t;
-
-Pizero_owner_t s_owner;
+//-------------------------------------------------------------------------
+// extern declarations
+extern Pizero_owner_t g_owner;
 
 //-------------------------------------------------------------------------
 // for debug
@@ -83,8 +86,8 @@ bool proc_hello(String csvline)
 
 //  debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
-  s_owner.nickName = nickname;
-  s_owner.serialNo = serno;
+  g_owner.nickName = nickname;
+  g_owner.serialNo = serno;
   
 //  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
 //  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
