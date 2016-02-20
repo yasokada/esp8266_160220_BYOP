@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.12 2016 Feb. 20
+ *  - display reply on LCD in proc_bye()
  * v0.11 2016 Feb 20
  *  - display "ready" on 8x2 LCD just after power on
  *  - add [esp8266_160217_AQM0802.ino] to display characters on 8x2 LCD
@@ -134,7 +136,12 @@ bool proc_post(String csvline)
 
 bool proc_bye(String csvline)
 {
-  Serial.println(kCmdList[CMD_BYE] + "," + g_owner.nickName);
+  String reply = kCmdList[CMD_BYE] + "," + g_owner.nickName;
+
+  Serial.println(reply);
+
+  AQM0802_Clear();
+  AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
 }
 
 
