@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.3 2016 Feb 20
+ *  - use equalsIgnoreCase() instead of equals() in Serial_replyToCommand()
  * v0.2 2016 Feb 20
  *  - fix Serial_readCommand() to handle CR code
  *  - add Serial_replyToCommand()
@@ -55,7 +57,7 @@ String Serial_readCommand()
 
 void Serial_replyToCommand(String cmdline)
 {
-  if (cmdline.equals("hello")) {
+  if (cmdline.equalsIgnoreCase("hello")) {
     Serial.println("hello, 7of9");
   } else {
     Serial.println(cmdline);    
