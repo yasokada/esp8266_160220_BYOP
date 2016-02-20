@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.11 2016 Feb 20
+ *  - add [esp8266_160217_AQM0802.ino] to display characters on 8x2 LCD
  * v0.10 2016 Feb 20
  *  - fix proc_bye() to use nickName
  *  - move [kCmdList] and [CMD_e] to [dataStructure.h]
