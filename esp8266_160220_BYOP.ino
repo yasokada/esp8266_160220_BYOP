@@ -7,6 +7,8 @@
 
 /*
  * v0.3 2016 Feb 20
+ *  - move static declaraions for UART to UARTlib
+ *  - move Serial_readCommand to UARTlib
  *  - use equalsIgnoreCase() instead of equals() in Serial_replyToCommand()
  * v0.2 2016 Feb 20
  *  - fix Serial_readCommand() to handle CR code
@@ -16,43 +18,8 @@
  *  - add serial setup
  */
 
-//-------------------------------------------------------------------------
-// static declarations
-
-static const char kCodeCR = '\r';
-static const char kCodeLF = '\n';
-
-static String s_serialReceiveBuff = "";
-static bool s_serialClearOnNext = false;
-//-------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200); 
-}
-
-String Serial_readCommand()
-{
-  if (Serial.available() == 0) {
-    return "";  
-  }
-
-  if (s_serialClearOnNext) {
-    s_serialClearOnNext = false;
-    s_serialReceiveBuff = "";
-  }
-  
-  char code;
-  while(Serial.available() > 0) {
-    code = Serial.read();
-    if (code == kCodeCR) {
-      continue;
-    }
-    if (code == kCodeLF) {
-      s_serialClearOnNext = true;
-      return s_serialReceiveBuff;
-    } else {
-      s_serialReceiveBuff += code;
-    }
-  }
 }
 
 void Serial_replyToCommand(String cmdline)
