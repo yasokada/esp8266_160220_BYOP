@@ -24,7 +24,7 @@
  */
 
 //-------------------------------------------------------------------------
-// static declrations
+// static declrations and enums
 
 static String kCmdList[] = {
   "hello",
@@ -40,6 +40,8 @@ enum tag_CMD_e {
   CMD_GET,
   CMD_POST,
   CMD_BYE,
+  // below is special index
+  SIZE_CMD = CMD_BYE + 1,
 } CMD_e;
 
 //-------------------------------------------------------------------------
@@ -51,19 +53,36 @@ void setup() {
 signed int getCommandIdx(String aCmd)
 {
   aCmd.toLowerCase();
+  for(int idx = 0; idx < SIZE_CMD; idx++) {
+    if ( aCmd.equalsIgnoreCase(kCmdList[idx]) ) {
+      return idx;
+    }
+  }
+  return -1;
 }
 
 void Serial_replyToCommand(String cmdline)
 {  
-  String strcmdr = extractCsvRow(cmdline, 0);
-  if (strcmdr.length() == 0) {
+  String strcmd = extractCsvRow(cmdline, 0);
+  if (strcmd.length() == 0) {
     return; // is not a command
   }
 
-  if (strcmdr.equalsIgnoreCase("hello")) {
-    Serial.println("hello, 7of9");
-  } else {
-    Serial.println(cmdline);
+  int cmdidx = getCommandIdx(strcmd);
+  if (cmdidx < 0) {
+    Serial.println(cmdline);    
+  }
+
+  switch(cmdidx) {
+  case CMD_HELLO:
+    Serial.println("hello,7of9");
+    break;
+  case CMD_BYE:
+    Serial.println("bye,7of9");
+    break;
+  default:
+    // do nothing
+    break;
   }
 }
 
