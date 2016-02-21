@@ -6,6 +6,9 @@
 
 
 /*
+ * v0.14 2016 Feb. 22
+ *  - msgStorageLib: add Test_MsgServer_setupDummyMessages()
+ *  - msgStorageLib: add s_messageList[], [s_messageCount]
  * v0.13 2016 Feb. 21
  *  - add (msgStorageLib)
  *  - change member variable names of [message_t]
