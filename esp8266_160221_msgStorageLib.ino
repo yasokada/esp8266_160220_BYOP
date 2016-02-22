@@ -4,6 +4,8 @@
 #include "dataStructure.h"
 
 /*
+ * v0.3 2016 Feb. 23
+ *  - 
  * v0.2 2016 Feb. 22
  *  - add Test_MsgServer_setupDummyMessages()
  *  - add s_messageList[], [s_messageCount]
@@ -31,31 +33,24 @@ void MsgServer_Clear()
 {
 }
 
-int MsgServer_GetCount_ReceiverOf(String rcver)
+int MsgServer_GetMessageCount(String rcver)
 {
 	// TODO: 0m > return count of message for the receiver
 }
-
-#if 0
-int MsgServer_GetIndexOf1stMessage_ReceiverOf(String rcver)
-{
-	// TODO: 0m > return index of the 1st message for the receiver
-}
-#endif
 
 String MsgServer_Get1stMessage(String rcver)
 {
 	// TODO: 0m > return 1st message for the receiver
 }
 
-void MsgServer_PostMessage(String snder, String rcver, String msg)
-{
-	// TODO: 0m > add message 
-}
-
 void MsgServer_Remove1stMessage(String rcver)
 {
 	// TODO: 0m > remove 1st message for the receiver
+}
+
+bool MsgServer_PostMessage(String snder, String rcver, String msg)
+{
+	// TODO: 0m > add message 
 }
 
 
