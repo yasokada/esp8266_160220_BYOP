@@ -1,11 +1,17 @@
 
 // String library
 
-#include "dataStructure.h"
+//#include "dataStructure.h"
+#include "msgStorage.h"
 
 /*
  * v0.3 2016 Feb. 23
- *  - 
+ *  - add Test_MsgServer_postThenGet()
+ *  - add MsgServer_PostMessage()
+ *  - add MsgServer_Remove1stMessage()
+ *  - add MsgServer_Get1stMessage()
+ *  - add MsgServer_GetMessageCount()
+ *  - add MsgServer_Clear()
  * v0.2 2016 Feb. 22
  *  - add Test_MsgServer_setupDummyMessages()
  *  - add s_messageList[], [s_messageCount]
@@ -48,7 +54,7 @@ void MsgServer_Remove1stMessage(String rcver)
 	// TODO: 0m > remove 1st message for the receiver
 }
 
-bool MsgServer_PostMessage(String snder, String rcver, String msg)
+bool MsgServer_PostMessage(String snder, String rcver, String msg, bool isSecret)
 {
 	// TODO: 0m > add message 
 }
@@ -79,4 +85,9 @@ void Test_MsgServer_setupDummyMessages()
 			;
 		debug_outputDebugString("Test_MsgServer_setupDummyMessages", "Line79 > " + work);
 	}
+}
+
+void Test_MsgServer_postThenGet()
+{
+
 }

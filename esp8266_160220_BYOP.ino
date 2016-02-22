@@ -7,6 +7,7 @@
 
 /*
  * v0.15 2016 Feb. 23
+*   - add [msgStorage.h]
  *  - msgStorageLib: design interface
  * v0.14 2016 Feb. 22
  *  - test
