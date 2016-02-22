@@ -21,40 +21,46 @@ static int s_messageCount = 0;
 
 static const message_t s_dummyMsg[] =
 {
-	{ "001", "7of9", "Vital", "hello", 0 }
+	{ "001", "7of9", "Vital", "hello,Vital", 0 },
+	{ "007", "Vital", "7of9", "hello,7of9", 0 },
 };
 //-------------------------------------------------------------------------
 
 
 void MsgServer_Clear()
 {
-
 }
 
 int MsgServer_GetCount_ReceiverOf(String rcver)
 {
-
+	// TODO: 0m > return count of message for the receiver
 }
 
-int MsgServer_GetIndex_ReceiverOf(String rcver)
+#if 0
+int MsgServer_GetIndexOf1stMessage_ReceiverOf(String rcver)
 {
-
+	// TODO: 0m > return index of the 1st message for the receiver
 }
+#endif
 
-String MsgServer_GetMessage(String rcver, int idx)
+String MsgServer_Get1stMessage(String rcver)
 {
-
+	// TODO: 0m > return 1st message for the receiver
 }
 
 void MsgServer_PostMessage(String snder, String rcver, String msg)
 {
-
+	// TODO: 0m > add message 
 }
 
-void MsgServer_RemoveMessage(int idx)
+void MsgServer_Remove1stMessage(String rcver)
 {
-
+	// TODO: 0m > remove 1st message for the receiver
 }
+
+
+//-------------------------------------------------------------------------
+// test functions
 
 void Test_MsgServer_setupDummyMessages()
 {

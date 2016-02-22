@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.15 2016 Feb. 23
+ *  - msgStorageLib: design interface
  * v0.14 2016 Feb. 22
  *  - test
  *  - msgStorageLib: add Test_MsgServer_setupDummyMessages()
