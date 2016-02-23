@@ -7,6 +7,7 @@
 
 /*
  * v0.20 2016 Feb. 23
+ *  - turn off debug ifdef
  *  - impl proc_post()
  *  - add [POST_IDX_e]
  *  - impl proc_post()
@@ -132,13 +133,13 @@ bool proc_hello(String csvline)
     return false;
   }
 
-#if 1
+#if 0
   int len = nickname.length();
   String msg130 = String(len);
   debug_outputDebugString("proc_hello", "line131 > " + msg130);
 #endif  
 
-#if 1
+#if 0
   Test_MsgServer_setupDummyMessages();
 #endif
 
