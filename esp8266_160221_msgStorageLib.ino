@@ -116,10 +116,18 @@ void Test_MsgServer_postThenGet()
 	}
 
 	// 2. get
+	// 2-1. check by 7of9
 	String iam = "7of9";
 	int msgCnt = MsgServer_GetMessageCount(iam);
 
 	String msgToMe;
+	for(int idx = 0; idx < msgCnt; idx++) {
+		msgToMe = MsgServer_Get1stMessage(iam);
+		debug_outputDebugString("Test_MsgServer_postThenGet", "Line125 > " + msgToMe);		
+		MsgServer_Remove1stMessage(iam);
+	}
+	// 2-2. check by Vital
+	iam = "Vital";
 	for(int idx = 0; idx < msgCnt; idx++) {
 		msgToMe = MsgServer_Get1stMessage(iam);
 		debug_outputDebugString("Test_MsgServer_postThenGet", "Line125 > " + msgToMe);		
