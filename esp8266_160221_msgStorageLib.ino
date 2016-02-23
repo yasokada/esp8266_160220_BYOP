@@ -4,6 +4,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.6 2016 Feb. 23
+    - impl MsgServer_PostMessage()
  * v0.5 2016 Feb. 23
  *  - impl Test_MsgServer_postThenGet()
  * v0.4 2016 Feb. 23
@@ -61,7 +63,18 @@ void MsgServer_Remove1stMessage(String rcver)
 
 bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, bool isSecret)
 {
-	// TODO: 0m > add message 
+	if (s_messageCount >= (kMaxnum_MessageCount - 1)) {
+		return false;
+	}
+
+	int nextIdx = s_messageCount;
+	s_messageList[nextIdx].senderSerial = srl;
+	s_messageList[nextIdx].senderName 	= snder;
+	s_messageList[nextIdx].receiverName = rcver;
+	s_messageList[nextIdx].message 		= msg;
+	s_messageList[nextIdx].isSecret 	= isSecret;
+
+	s_messageCount++;
 }
 
 
@@ -96,8 +109,6 @@ void Test_MsgServer_postThenGet()
 {
 
 	int dmysiz = sizeof(s_dummyMsg) / sizeof(s_dummyMsg[0]);
-
-// bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, bool isSecret)
 
 	String srl; // seraial of the sender
 	String snder; // sender
