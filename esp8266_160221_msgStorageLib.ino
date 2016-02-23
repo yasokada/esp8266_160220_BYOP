@@ -1,10 +1,12 @@
 
-// String library
+// Message Storage/Load Library
 
+#include <stdint.h>
 #include "msgStorage.h"
 
 /*
  * v0.6 2016 Feb. 23
+    - impl MsgServer_Remove1stMessage()
     - impl MsgServer_PostMessage()
  * v0.5 2016 Feb. 23
  *  - impl Test_MsgServer_postThenGet()
@@ -58,12 +60,47 @@ String MsgServer_Get1stMessage(String rcver)
 
 void MsgServer_Remove1stMessage(String rcver)
 {
-	// TODO: 0m > remove 1st message for the receiver
+	// TODO: 0m > test MsgServer_Remove1stMessage()
+
+	// remove 1st message for the receiver
+	//
+
+	// 1. Find target to remove
+	String work;
+	int8_t removeIdx = -1;
+	for(int idx = 0; idx < s_messageCount; idx++) {
+		work = s_messageList[idx].receiverName = rcver;
+		if (work == rcver) {
+			removeIdx = idx;
+			break;
+		}
+	}
+	if (removeIdx < 0) {
+		return; // nothing to remove
+	}
+
+	// 2. Remove
+	int nextIdx;
+	int startIdx = removeIdx;
+	for(int idx = startIdx; idx < s_messageCount; idx++) {
+		nextIdx = (idx + 1);
+		s_messageList[idx].senderSerial = s_messageList[nextIdx].senderSerial;
+		s_messageList[idx].senderName 	= s_messageList[nextIdx].senderName;
+		s_messageList[idx].receiverName = s_messageList[nextIdx].receiverName;
+		s_messageList[idx].message 		= s_messageList[nextIdx].message;
+		s_messageList[idx].isSecret 	= s_messageList[nextIdx].isSecret;
+	}	
+	s_messageCount--;
 }
 
 bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, bool isSecret)
 {
-	if (s_messageCount >= (kMaxnum_MessageCount - 1)) {
+	// TODO: 0m > test MsgServer_PostMessage()
+
+	// add message to the list
+	//
+
+	if ( s_messageCount >= (kMaxnum_MessageCount - 1) ) {
 		return false;
 	}
 
