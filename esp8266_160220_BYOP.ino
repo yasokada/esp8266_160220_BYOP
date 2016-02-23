@@ -7,6 +7,7 @@
 
 /*
  * v0.18 2016 Feb. 23
+ *  - impl proc_check()
  *  - msgStorageLib: add Test_MsgServer_Clear() 
  *  - msgStorageLib: fix MsgServer_Remove1stMessage()
  * v0.17 2016 Feb. 23
@@ -143,10 +144,9 @@ bool proc_hello(String csvline)
 
 bool proc_check(String csvline)
 {
-#if 1
-  Test_MsgServer_postThenGet();
-#endif  
-  debug_outputDebugString("proc_check", "line116 > start");
+  int msgcnt = MsgServer_GetMessageCount(g_owner.nickName);
+  String resstr = kCmdList[CMD_CHECK] + "," + String(msgcnt);
+  Serial.println(resstr);
 }
 
 bool proc_get(String csvline)
