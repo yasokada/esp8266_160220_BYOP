@@ -16,7 +16,7 @@ String kCmdList[] = {
 };
 
 enum tag_CMD_e {
-  CMD_HELLO,
+  CMD_HELLO = 0,
   CMD_CHECK,
   CMD_GET,
   CMD_POST,
@@ -24,6 +24,13 @@ enum tag_CMD_e {
   // below is special index
   SIZE_CMD = CMD_BYE + 1,
 } CMD_e;
+
+enum tag_POST_IDX_e {
+  POST_IDX_COMMAND = 0,
+  POST_IDX_RECEIVER,
+  POST_IDX_MESSAGE,
+  POST_IDX_IS_SECRET,
+} POST_IDX_e;
 
 
 #endif 

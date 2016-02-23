@@ -6,6 +6,9 @@
 
 
 /*
+ * v0.20 2016 Feb. 23
+ *  - impl proc_post()
+ *  - add [POST_IDX_e]
  *  - impl proc_post()
  * v0.19 2016 Feb. 23
  *  - update proc_get()
@@ -190,17 +193,22 @@ bool proc_get(String csvline)
 
 bool proc_post(String csvline)
 {
-  // TODO: 0m > impl proc_post()
-  debug_outputDebugString("proc_post", "line126 > start");
+  debug_outputDebugString("proc_post", "line126 > " + csvline);
 
-  String msgstr = extractCsvRow(csvline, 1); // TODO: 0z > do not use magic number
-  String rcver = extractCsvRow(csvline, 2); // TODO: 0z do not use magic number
+  String msgstr = extractCsvRow(csvline, POST_IDX_MESSAGE);
+  String rcver = extractCsvRow(csvline, POST_IDX_RECEIVER);
+  String strIsScret = extractCsvRow(csvline, POST_IDX_IS_SECRET);
 
-  Serial.println("msg:" + msgstr);
+  if (strIsScret.length() == 0) {
+    return false; // error
+  }
+
+  bool isSecret = strIsScret.toInt();
+
   Serial.println("rcver:" + rcver);
+  Serial.println("msg:" + msgstr);
 
-  // TODO: 0m > add parameter isSecret in serial command
-  MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, /*isSecret=*/0);
+  MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, isSecret);
 
   String lcdmsg = "msg,posted";
   AQM0802_Clear();
