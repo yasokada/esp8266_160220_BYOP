@@ -7,6 +7,7 @@
 
 /*
    v0.16 2016 Feb. 23
+    - msgStorageLib: impl MsgServer_Get1stMessage()
     - msgStorageLib: impl MsgServer_Remove1stMessage()
     - msgStorageLib: impl MsgServer_PostMessage()
  * v0.15 2016 Feb. 23
