@@ -55,8 +55,6 @@ static const message_t s_dummyMsg[] =
 
 void MsgServer_Clear()
 {
-	// TODO: 0m > test MsgServer_Clear()
-
 	message_t *dstPtr;
 
 	for(int idx = 0; idx < s_messageCount; idx++) {
@@ -73,8 +71,6 @@ void MsgServer_Clear()
 
 int MsgServer_GetMessageCount(String rcver)
 {
-	// TODO: 0m > test MsgServer_GetMessageCount()
-
 	// Return count of message for the receiver
 	//
 	int cnt = 0;
@@ -88,8 +84,6 @@ int MsgServer_GetMessageCount(String rcver)
 
 String MsgServer_Get1stMessage(String rcver)
 {
-	// TODO: 0m > test MsgServer_Get1stMessage()
-
 	// Return 1st message for the receiver
 	//
 
@@ -103,8 +97,6 @@ String MsgServer_Get1stMessage(String rcver)
 
 void MsgServer_Remove1stMessage(String rcver)
 {
-	// TODO: 0m > test MsgServer_Remove1stMessage()
-
 	// remove 1st message for the receiver
 	//
 
@@ -138,8 +130,6 @@ void MsgServer_Remove1stMessage(String rcver)
 
 bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, bool isSecret)
 {
-	// TODO: 0m > test MsgServer_PostMessage()
-
 	// add message to the list
 	//
 
