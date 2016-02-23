@@ -7,6 +7,7 @@
 
 /*
  * v0.18 2016 Feb. 23
+ *  - msgStorageLib: add Test_MsgServer_Clear() 
  *  - msgStorageLib: fix MsgServer_Remove1stMessage()
  * v0.17 2016 Feb. 23
  *  - msgStorageLib: impl MsgServer_Clear()
@@ -150,6 +151,9 @@ bool proc_check(String csvline)
 
 bool proc_get(String csvline)
 {
+#if 1
+  Test_MsgServer_Clear();
+#endif  
   debug_outputDebugString("proc_get", "line121 > start");
 }
 

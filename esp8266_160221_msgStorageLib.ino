@@ -6,6 +6,7 @@
 
 /*
  * v0.8 2016 Feb. 23
+ *  - add Test_MsgServer_Clear()
  *  - fix MsgServer_Remove1stMessage()
  * v0.7 2016 Feb. 23
  *  - impl MsgServer_Clear()
@@ -224,6 +225,38 @@ void Test_MsgServer_postThenGet()
 		debug_outputDebugString("Test_MsgServer_postThenGet", "Line221 > " + msgToMe);		
 		MsgServer_Remove1stMessage(iam);
 	}
+}
 
-	// TODO: 0m > use MsgServer_Clear();
+void Test_MsgServer_Clear()
+{
+	int dmysiz = sizeof(s_dummyMsg) / sizeof(s_dummyMsg[0]);
+
+	String srl; // seraial of the sender
+	String snder; // sender
+	String rcver; // receiver
+	String msg; // message
+	bool isScr; // is secret message?
+
+	// 1. post
+	for(int idx = 0; idx < dmysiz; idx++) {
+		srl = s_dummyMsg[idx].senderSerial;
+		snder = s_dummyMsg[idx].senderName;
+		rcver = s_dummyMsg[idx].receiverName;
+		msg = s_dummyMsg[idx].message;
+		isScr = s_dummyMsg[idx].isSecret;
+		MsgServer_PostMessage(srl, snder, rcver, msg, isScr);
+	}
+
+	// 2. check
+	String iam = "7of9";
+	int msgCnt = MsgServer_GetMessageCount(iam);
+
+	String msg1 = "Count:" + String(msgCnt);
+	debug_outputDebugString("Test_MsgServer_Clear", "Line255 > " + msg1);	
+	
+	MsgServer_Clear(); // 
+
+	msgCnt = MsgServer_GetMessageCount(iam);
+	msg1 = "Count:" + String(msgCnt);
+	debug_outputDebugString("Test_MsgServer_Clear", "Line259 > " + msg1);	
 }
