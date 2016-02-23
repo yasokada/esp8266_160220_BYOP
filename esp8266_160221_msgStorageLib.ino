@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+   v0.7 2016 Feb. 23
+   	- fix bug > MsgServer_Get1stMessage()
  * v0.6 2016 Feb. 23
  	- impl MsgServer_Get1stMessage()
     - impl MsgServer_Remove1stMessage()
@@ -61,10 +63,8 @@ String MsgServer_Get1stMessage(String rcver)
 	// Return 1st message for the receiver
 	//
 
-	String work;
 	for(int idx = 0; idx < s_messageCount; idx++) {
-		work = s_messageList[idx].receiverName = rcver;
-		if (work == rcver) {
+		if (s_messageList[idx].receiverName == rcver) {
 			return s_messageList[idx].message;
 		}
 	}

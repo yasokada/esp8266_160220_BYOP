@@ -6,13 +6,15 @@
 
 
 /*
-   v0.16 2016 Feb. 23
-    - msgStorageLib: impl MsgServer_Get1stMessage()
-    - msgStorageLib: impl MsgServer_Remove1stMessage()
-    - msgStorageLib: impl MsgServer_PostMessage()
+ * v0.17 2016 Feb. 23
+ *  - msgStorageLib: fix bug > MsgServer_Get1stMessage()
+ * v0.16 2016 Feb. 23
+ *  - msgStorageLib: impl MsgServer_Get1stMessage()
+ *  - msgStorageLib: impl MsgServer_Remove1stMessage()
+ *  - msgStorageLib: impl MsgServer_PostMessage()
  * v0.15 2016 Feb. 23
  *  - msgStorageLib: impl Test_MsgServer_postThenGet()
-*   - add [msgStorage.h]
+ *  - add [msgStorage.h]
  *  - msgStorageLib: design interface
  * v0.14 2016 Feb. 22
  *  - test
