@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.8 2016 Feb. 23
+ *  - fix MsgServer_Remove1stMessage()
  * v0.7 2016 Feb. 23
  *  - impl MsgServer_Clear()
  *  - impl MsgServer_GetMessageCount()
@@ -41,6 +43,7 @@ static int s_messageCount = 0;
 
 static const message_t s_dummyMsg[] =
 {
+	// senderSerial, senderName, receiverName, message, isSecret 
 	{ "000000000000000d", "7of9", "Vital", "hello,Vital", 0 },
 	{ "000000000000002g", "Vital", "7of9", "hello,7of9", 0 },
 	{ "000000000000000d", "7of9", "Vital", "meet at the Arctic", 1 },
@@ -51,6 +54,8 @@ static const message_t s_dummyMsg[] =
 
 void MsgServer_Clear()
 {
+	// TODO: 0m > test MsgServer_Clear()
+
 	message_t *dstPtr;
 
 	for(int idx = 0; idx < s_messageCount; idx++) {
@@ -106,7 +111,7 @@ void MsgServer_Remove1stMessage(String rcver)
 	String work;
 	int8_t removeIdx = -1;
 	for(int idx = 0; idx < s_messageCount; idx++) {
-		work = s_messageList[idx].receiverName = rcver;
+		work = s_messageList[idx].receiverName;
 		if (work == rcver) {
 			removeIdx = idx;
 			break;
@@ -208,14 +213,15 @@ void Test_MsgServer_postThenGet()
 	String msgToMe;
 	for(int idx = 0; idx < msgCnt; idx++) {
 		msgToMe = MsgServer_Get1stMessage(iam);
-		debug_outputDebugString("Test_MsgServer_postThenGet", "Line125 > " + msgToMe);		
+		debug_outputDebugString("Test_MsgServer_postThenGet", "Line214 > " + msgToMe);		
 		MsgServer_Remove1stMessage(iam);
 	}
 	// 2-2. check by Vital
 	iam = "Vital";
+	msgCnt = MsgServer_GetMessageCount(iam);
 	for(int idx = 0; idx < msgCnt; idx++) {
 		msgToMe = MsgServer_Get1stMessage(iam);
-		debug_outputDebugString("Test_MsgServer_postThenGet", "Line125 > " + msgToMe);		
+		debug_outputDebugString("Test_MsgServer_postThenGet", "Line221 > " + msgToMe);		
 		MsgServer_Remove1stMessage(iam);
 	}
 
