@@ -7,6 +7,7 @@
 
 /*
  * v0.17 2016 Feb. 23
+ *  - msgStorageLib: impl MsgServer_GetMessageCount()
  *  - msgStorageLib: fix bug > MsgServer_Get1stMessage()
  * v0.16 2016 Feb. 23
  *  - msgStorageLib: impl MsgServer_Get1stMessage()

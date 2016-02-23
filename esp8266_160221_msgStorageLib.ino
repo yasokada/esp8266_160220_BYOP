@@ -6,6 +6,7 @@
 
 /*
    v0.7 2016 Feb. 23
+    - impl MsgServer_GetMessageCount()
    	- fix bug > MsgServer_Get1stMessage()
  * v0.6 2016 Feb. 23
  	- impl MsgServer_Get1stMessage()
@@ -53,7 +54,17 @@ void MsgServer_Clear()
 
 int MsgServer_GetMessageCount(String rcver)
 {
-	// TODO: 0m > return count of message for the receiver
+	// TODO: 0m > test MsgServer_GetMessageCount()
+
+	// Return count of message for the receiver
+	//
+	int cnt = 0;
+	for(int idx = 0; idx < s_messageCount; idx++) {
+		if (s_messageList[idx].receiverName == rcver) {
+			cnt++;
+		}
+	}
+	return cnt;
 }
 
 String MsgServer_Get1stMessage(String rcver)
