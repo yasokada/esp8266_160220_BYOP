@@ -90,9 +90,6 @@ String MsgServer_Get1stMessage(String rcver)
 	//
 
 	for(int idx = 0; idx < s_messageCount; idx++) {
-#if 1
-		debug_outputDebugString("MsgServer_Get1stMessage", "line92 > " + s_messageList[idx].receiverName + "," + rcver);
-#endif		
 		if (s_messageList[idx].receiverName == rcver) {
 			return s_messageList[idx].message;
 		}
@@ -160,14 +157,14 @@ void Test_MsgServer_setupDummyMessages()
 {
 	int dmysiz = sizeof(s_dummyMsg) / sizeof(s_dummyMsg[0]);
 
-	s_messageCount = dmysiz;
-
-	for(int idx = 0; idx < s_messageCount; idx++) {
-		s_messageList[idx].senderSerial = s_dummyMsg[idx].senderSerial;
-		s_messageList[idx].senderName 	= s_dummyMsg[idx].senderName;
-		s_messageList[idx].receiverName = s_dummyMsg[idx].receiverName;
-		s_messageList[idx].message 		= s_dummyMsg[idx].message;
-		s_messageList[idx].isSecret 	= s_dummyMsg[idx].isSecret;
+	for(int idx = 0; idx < dmysiz; idx++) {
+		MsgServer_PostMessage(
+			 s_dummyMsg[idx].senderSerial
+			,s_dummyMsg[idx].senderName
+			,s_dummyMsg[idx].receiverName
+			,s_dummyMsg[idx].message
+			,s_dummyMsg[idx].isSecret
+		);
 	}
 
 	String work;
@@ -178,7 +175,7 @@ void Test_MsgServer_setupDummyMessages()
 			+ "," + s_messageList[idx].message
 			+ "," + s_messageList[idx].isSecret
 			;
-		debug_outputDebugString("Test_MsgServer_setupDummyMessages", "Line79 > " + work);
+//		debug_outputDebugString("Test_MsgServer_setupDummyMessages", "Line79 > " + work);
 	}
 }
 

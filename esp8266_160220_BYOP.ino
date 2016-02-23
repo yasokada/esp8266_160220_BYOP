@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.19 2016 Feb. 23
+ *  - update proc_get()
  *  - msgStorageLib: fix Test_MsgServer_setupDummyMessages()
  *  - impl proc_get()
  * v0.18 2016 Feb. 23
@@ -132,6 +134,10 @@ bool proc_hello(String csvline)
   debug_outputDebugString("proc_hello", "line131 > " + msg130);
 #endif  
 
+#if 1
+  Test_MsgServer_setupDummyMessages();
+#endif
+
 //  debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
   g_owner.nickName = nickname;
@@ -153,24 +159,35 @@ bool proc_hello(String csvline)
 bool proc_check(String csvline)
 {
   int msgcnt = MsgServer_GetMessageCount(g_owner.nickName);
-  String resstr = kCmdList[CMD_CHECK] + "," + String(msgcnt);
-  Serial.println(resstr);
+  String reply = kCmdList[CMD_CHECK] + "," + String(msgcnt);
+  Serial.println(reply);
+
+  AQM0802_Clear();
+  AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
 }
 
 bool proc_get(String csvline)
 {
+  int msgcnt = MsgServer_GetMessageCount(g_owner.nickName);
+  if (msgcnt == 0) {
+    return false; // TODO: 0m > what to reply???
+  }
+  String msgstr = MsgServer_Get1stMessage(g_owner.nickName);
 
 #if 1
-  Test_MsgServer_setupDummyMessages();
-#endif  
+  MsgServer_Remove1stMessage(g_owner.nickName);
+#endif
 
-  String msgstr = MsgServer_Get1stMessage(g_owner.nickName);
-  String resstr = kCmdList[CMD_GET] + "," + msgstr;
-  Serial.println(resstr);
+  String reply = kCmdList[CMD_GET] + "," + msgstr;
+  Serial.println(reply);
+
+  AQM0802_Clear();
+  AQM0802_PutMessage(msgstr, /* x_st1=*/1, /* y_st1=*/1);  
 }
 
 bool proc_post(String csvline)
 {
+  // TODO: 0m > impl proc_post()
   debug_outputDebugString("proc_post", "line126 > start");
 }
 
