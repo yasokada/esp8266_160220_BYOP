@@ -5,13 +5,14 @@
 #include "msgStorage.h"
 
 /*
-   v0.7 2016 Feb. 23
-    - impl MsgServer_GetMessageCount()
-   	- fix bug > MsgServer_Get1stMessage()
+ * v0.7 2016 Feb. 23
+ *  - impl MsgServer_Clear()
+ *  - impl MsgServer_GetMessageCount()
+ *	- fix bug > MsgServer_Get1stMessage()
  * v0.6 2016 Feb. 23
- 	- impl MsgServer_Get1stMessage()
-    - impl MsgServer_Remove1stMessage()
-    - impl MsgServer_PostMessage()
+ *	- impl MsgServer_Get1stMessage()
+ *  - impl MsgServer_Remove1stMessage()
+ *  - impl MsgServer_PostMessage()
  * v0.5 2016 Feb. 23
  *  - impl Test_MsgServer_postThenGet()
  * v0.4 2016 Feb. 23
@@ -50,6 +51,18 @@ static const message_t s_dummyMsg[] =
 
 void MsgServer_Clear()
 {
+	message_t *dstPtr;
+
+	for(int idx = 0; idx < s_messageCount; idx++) {
+		dstPtr = &(s_messageList[idx]);
+		dstPtr->senderSerial = "";
+		dstPtr->senderName = "";
+		dstPtr->receiverName = "";
+		dstPtr->message = "";
+		dstPtr->isSecret = 0;
+	}
+
+	s_messageCount = 0;
 }
 
 int MsgServer_GetMessageCount(String rcver)
