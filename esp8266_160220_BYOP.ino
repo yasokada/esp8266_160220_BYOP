@@ -6,6 +6,8 @@
 
 
 /*
+ *  - msgStorageLib: fix Test_MsgServer_setupDummyMessages()
+ *  - impl proc_get()
  * v0.18 2016 Feb. 23
  *  - impl proc_check()
  *  - msgStorageLib: add Test_MsgServer_Clear() 
@@ -124,6 +126,12 @@ bool proc_hello(String csvline)
     return false;
   }
 
+#if 1
+  int len = nickname.length();
+  String msg130 = String(len);
+  debug_outputDebugString("proc_hello", "line131 > " + msg130);
+#endif  
+
 //  debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
   g_owner.nickName = nickname;
@@ -151,10 +159,14 @@ bool proc_check(String csvline)
 
 bool proc_get(String csvline)
 {
+
 #if 1
-  Test_MsgServer_Clear();
+  Test_MsgServer_setupDummyMessages();
 #endif  
-  debug_outputDebugString("proc_get", "line121 > start");
+
+  String msgstr = MsgServer_Get1stMessage(g_owner.nickName);
+  String resstr = kCmdList[CMD_GET] + "," + msgstr;
+  Serial.println(resstr);
 }
 
 bool proc_post(String csvline)

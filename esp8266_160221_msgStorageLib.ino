@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.9 2016 Feb. 23
+ *  - fix Test_MsgServer_setupDummyMessages()
  * v0.8 2016 Feb. 23
  *  - add Test_MsgServer_Clear()
  *  - fix MsgServer_Remove1stMessage()
@@ -88,6 +90,9 @@ String MsgServer_Get1stMessage(String rcver)
 	//
 
 	for(int idx = 0; idx < s_messageCount; idx++) {
+#if 1
+		debug_outputDebugString("MsgServer_Get1stMessage", "line92 > " + s_messageList[idx].receiverName + "," + rcver);
+#endif		
 		if (s_messageList[idx].receiverName == rcver) {
 			return s_messageList[idx].message;
 		}
@@ -155,7 +160,9 @@ void Test_MsgServer_setupDummyMessages()
 {
 	int dmysiz = sizeof(s_dummyMsg) / sizeof(s_dummyMsg[0]);
 
-	for(int idx = 0; idx < dmysiz; idx++) {
+	s_messageCount = dmysiz;
+
+	for(int idx = 0; idx < s_messageCount; idx++) {
 		s_messageList[idx].senderSerial = s_dummyMsg[idx].senderSerial;
 		s_messageList[idx].senderName 	= s_dummyMsg[idx].senderName;
 		s_messageList[idx].receiverName = s_dummyMsg[idx].receiverName;
@@ -164,7 +171,7 @@ void Test_MsgServer_setupDummyMessages()
 	}
 
 	String work;
-	for(int idx = 0; idx < dmysiz; idx++) {
+	for(int idx = 0; idx < s_messageCount; idx++) {
 		work = s_messageList[idx].senderSerial
 			+ "," + s_messageList[idx].senderName
 			+ "," + s_messageList[idx].receiverName
