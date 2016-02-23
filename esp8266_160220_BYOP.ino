@@ -6,6 +6,7 @@
 
 
 /*
+ *  - impl proc_post()
  * v0.19 2016 Feb. 23
  *  - update proc_get()
  *  - msgStorageLib: fix Test_MsgServer_setupDummyMessages()
@@ -164,6 +165,7 @@ bool proc_check(String csvline)
 
   AQM0802_Clear();
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
+  return true;
 }
 
 bool proc_get(String csvline)
@@ -183,12 +185,28 @@ bool proc_get(String csvline)
 
   AQM0802_Clear();
   AQM0802_PutMessage(msgstr, /* x_st1=*/1, /* y_st1=*/1);  
+  return true;
 }
 
 bool proc_post(String csvline)
 {
   // TODO: 0m > impl proc_post()
   debug_outputDebugString("proc_post", "line126 > start");
+
+  String msgstr = extractCsvRow(csvline, 1); // TODO: 0z > do not use magic number
+  String rcver = extractCsvRow(csvline, 2); // TODO: 0z do not use magic number
+
+  Serial.println("msg:" + msgstr);
+  Serial.println("rcver:" + rcver);
+
+  // TODO: 0m > add parameter isSecret in serial command
+  MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, /*isSecret=*/0);
+
+  String lcdmsg = "msg,posted";
+  AQM0802_Clear();
+  AQM0802_PutMessage(lcdmsg, /* x_st1=*/1, /* y_st1=*/1);  
+
+  return true;
 }
 
 bool proc_bye(String csvline)
@@ -202,3 +220,4 @@ bool proc_bye(String csvline)
 }
 
 
+// TODO: 0m > add CMD_CLEAR to clear all messages (need some protection)
