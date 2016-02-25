@@ -137,16 +137,8 @@ bool proc_hello(String csvline)
   }
 
 #if 0
-  int len = nickname.length();
-  String msg130 = String(len);
-  debug_outputDebugString("proc_hello", "line131 > " + msg130);
-#endif  
-
-#if 0
   Test_MsgServer_setupDummyMessages();
 #endif
-
-//  debug_outputDebugString("proc_hello", "line89 > " + csvline);
 
   g_owner.nickName = nickname;
   g_owner.serialNo = serno;
@@ -189,6 +181,8 @@ bool proc_get(String csvline)
 
   String reply = kCmdList[CMD_GET] + "," + msgstr;
   Serial.println(reply);
+
+  // TODO: 0m > do not show on LCD if (isSecret!=0)
 
   AQM0802_Clear();
   AQM0802_PutMessage(msgstr, /* x_st1=*/1, /* y_st1=*/1);  
