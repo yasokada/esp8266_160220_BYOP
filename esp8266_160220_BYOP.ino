@@ -7,6 +7,7 @@
 
 /*
  * v0.21 2016 Feb. 25
+ *  - proc_get() can get also [isSecret] to show / hide message on LCD
  *  - replace print for debug with debug_outputDebugString()
  *    + to clarify the debug print from communication strings
  * v0.20 2016 Feb. 23
@@ -169,11 +170,15 @@ bool proc_check(String csvline)
 
 bool proc_get(String csvline)
 {
+  // TODO: 0c > test proc_get()
+
   int msgcnt = MsgServer_GetMessageCount(g_owner.nickName);
   if (msgcnt == 0) {
     return false; // TODO: 0m > what to reply???
   }
-  String msgstr = MsgServer_Get1stMessage(g_owner.nickName);
+  String msgline = MsgServer_Get1stMessage(g_owner.nickName);
+  String msgstr = extractCsvRow(csvline, GET_IDX_MESSAGE);
+  String strIsScret = extractCsvRow(csvline, GET_IDX_IS_SECRET);
 
 #if 1
   MsgServer_Remove1stMessage(g_owner.nickName);
