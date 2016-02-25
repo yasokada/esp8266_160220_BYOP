@@ -7,6 +7,7 @@
 
 /*
  * v0.21 2016 Feb. 25
+ *  - proc_post() reply in serial 
  *  - proc_get() can get also [isSecret] to show / hide message on LCD
  *  - replace print for debug with debug_outputDebugString()
  *    + to clarify the debug print from communication strings
@@ -196,6 +197,8 @@ bool proc_get(String csvline)
 
 bool proc_post(String csvline)
 {
+  // TOOD: 0m > test proc_post()
+
   debug_outputDebugString("proc_post", "line126 > " + csvline);
 
   String msgstr = extractCsvRow(csvline, POST_IDX_MESSAGE);
@@ -217,6 +220,9 @@ bool proc_post(String csvline)
 #endif
 
   MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, isSecret);
+
+  String reply = kCmdList[CMD_POST] + ",ok";
+  Serial.println(reply);
 
   String lcdmsg = "msg,posted";
   AQM0802_Clear();
