@@ -6,6 +6,12 @@
 
 
 /*
+ * v0.22 2016 Feb. 26
+ *  - hide secret message (do not show on LCD)
+ *    + update proc_get()
+ *    + msgStorageLib: add MsgServer_GetIsSecretOf1stMessage()
+ *  - fix bug > proc_get() > did not correctly treat message string
+ *  - tested proc_post()
  * v0.21 2016 Feb. 25
  *  - proc_post() reply in serial 
  *  - proc_get() can get also [isSecret] to show / hide message on LCD
@@ -177,9 +183,12 @@ bool proc_get(String csvline)
   if (msgcnt == 0) {
     return false; // TODO: 0m > what to reply???
   }
-  String msgline = MsgServer_Get1stMessage(g_owner.nickName);
-  String msgstr = extractCsvRow(csvline, GET_IDX_MESSAGE);
-  String strIsScret = extractCsvRow(csvline, GET_IDX_IS_SECRET);
+  String msgstr = MsgServer_Get1stMessage(g_owner.nickName);
+
+  debug_outputDebugString("proc_get", "msgstr:" + msgstr);
+;
+
+  bool isScrt = MsgServer_GetIsSecretOf1stMessage(g_owner.nickName);
 
 #if 1
   MsgServer_Remove1stMessage(g_owner.nickName);
@@ -188,8 +197,10 @@ bool proc_get(String csvline)
   String reply = kCmdList[CMD_GET] + "," + msgstr;
   Serial.println(reply);
 
-  // TODO: 0m > do not show on LCD if (isSecret!=0)
-
+  if (isScrt) {
+    // replace message in order not to show the message
+    msgstr = "smsg,posted";       
+  }
   AQM0802_Clear();
   AQM0802_PutMessage(msgstr, /* x_st1=*/1, /* y_st1=*/1);  
   return true;
@@ -197,8 +208,6 @@ bool proc_get(String csvline)
 
 bool proc_post(String csvline)
 {
-  // TOOD: 0m > test proc_post()
-
   debug_outputDebugString("proc_post", "line126 > " + csvline);
 
   String msgstr = extractCsvRow(csvline, POST_IDX_MESSAGE);
@@ -211,13 +220,8 @@ bool proc_post(String csvline)
 
   bool isSecret = strIsScret.toInt();
 
-#if 1
   debug_outputDebugString("proc_post", "rcver:" + rcver);
   debug_outputDebugString("proc_post", "msg:" + msgstr);
-#else
-  Serial.println("rcver:" + rcver);
-  Serial.println("msg:" + msgstr);
-#endif
 
   MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, isSecret);
 

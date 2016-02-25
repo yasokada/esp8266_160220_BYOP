@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.10 2016 Feb. 23
+ *  - add MsgServer_GetIsSecretOf1stMessage()
  * v0.9 2016 Feb. 23
  *  - fix Test_MsgServer_setupDummyMessages()
  * v0.8 2016 Feb. 23
@@ -82,6 +84,19 @@ int MsgServer_GetMessageCount(String rcver)
 		}
 	}
 	return cnt;
+}
+
+bool MsgServer_GetIsSecretOf1stMessage(String rcver)
+{
+	// Return [isSecret] of the 1st message for the receiver
+	//
+
+	for(int idx = 0; idx < s_messageCount; idx++) {
+		if (s_messageList[idx].receiverName == rcver) {
+			return s_messageList[idx].isSecret;
+		}
+	}
+	return false; // nothing to remove
 }
 
 String MsgServer_Get1stMessage(String rcver)

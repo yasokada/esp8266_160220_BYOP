@@ -32,10 +32,12 @@ enum tag_POST_IDX_e {
   POST_IDX_IS_SECRET,
 } POST_IDX_e;
 
+#if 0
 enum tag_GET_IDX_e {
   GET_IDX_COMMAND = 0,
   GET_IDX_MESSAGE,
   GET_IDX_IS_SECRET,
 } GET_IDX_e;
+#endif
 
 #endif 
