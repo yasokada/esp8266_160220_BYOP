@@ -6,6 +6,9 @@
 
 
 /*
+ * v0.21 2016 Feb. 25
+ *  - replace print for debug with debug_outputDebugString()
+ *    + to clarify the debug print from communication strings
  * v0.20 2016 Feb. 23
  *  - turn off debug ifdef
  *  - impl proc_post()
@@ -206,8 +209,13 @@ bool proc_post(String csvline)
 
   bool isSecret = strIsScret.toInt();
 
+#if 1
+  debug_outputDebugString("proc_post", "rcver:" + rcver);
+  debug_outputDebugString("proc_post", "msg:" + msgstr);
+#else
   Serial.println("rcver:" + rcver);
   Serial.println("msg:" + msgstr);
+#endif
 
   MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, isSecret);
 
