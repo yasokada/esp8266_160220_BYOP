@@ -6,6 +6,7 @@
 
 
 /*
+ *  - add [kAuthorizationCode], which is used to protect to clear all the messages
  * v0.23 2016 Feb. 27
  *  - add [CMD_ALL_CLEAR] in Serial command
  *  - update proc_get() > add 3rd parameter [isSecret(0|1)] (ref. protocol v0.7)
@@ -100,6 +101,9 @@
 
 //-------------------------------------------------------------------------
 // static declarations and enums
+
+// serail number of the 1st commit of esp8266_160220_BYOP
+static const String kAuthorizationCode = "7975f53";
 
 //-------------------------------------------------------------------------
 // extern declarations
@@ -251,6 +255,16 @@ bool proc_bye(String csvline)
 bool proc_clear(String csvline)
 {
   debug_outputDebugString("proc_clear", "Line251 > start");
+
+  String athcd = extractCsvRow(csvline, 1);
+  if (athcd != kAuthorizationCode) {
+    return false; // error
+  }
+
+  debug_outputDebugString("proc_clear", "Line263 > cleared");
+
+  // TODO: 0m > clear_allMessages()
+  return true;
 }
 
 
