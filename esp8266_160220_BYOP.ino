@@ -146,16 +146,9 @@ bool proc_hello(String csvline)
     return false;
   }
 
-#if 0
-  Test_MsgServer_setupDummyMessages();
-#endif
-
   g_owner.nickName = nickname;
   g_owner.serialNo = serno;
   
-//  debug_outputDebugString("proc_hello", "line105 > [S/N]" + serno);
-//  debug_outputDebugString("proc_hello", "line106 > [name]" + nickname);
-
   String reply = kCmdList[CMD_HELLO] + "," + g_owner.nickName;
 
   Serial.println(reply);
@@ -179,8 +172,6 @@ bool proc_check(String csvline)
 
 bool proc_get(String csvline)
 {
-  // TODO: 0c > test proc_get()
-
   String rcver = g_owner.nickName;
 
   int msgcnt = MsgServer_GetMessageCount(rcver);
@@ -194,8 +185,10 @@ bool proc_get(String csvline)
 
   bool isScrt = MsgServer_GetIsSecretOf1stMessage(rcver);
 
-  // the message is removed here
+  // ---
+  // When the user reads the message, the message is removed.
   MsgServer_Remove1stMessage(rcver);
+  // ---
 
   String reply = kCmdList[CMD_GET] + "," + msgstr;
   if (isScrt) {
