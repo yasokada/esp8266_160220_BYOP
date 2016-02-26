@@ -180,19 +180,21 @@ bool proc_get(String csvline)
 {
   // TODO: 0c > test proc_get()
 
-  int msgcnt = MsgServer_GetMessageCount(g_owner.nickName);
+  String rcver = g_owner.nickName;
+
+  int msgcnt = MsgServer_GetMessageCount(rcver);
   if (msgcnt == 0) {
     return false; // TODO: 0m > what to reply???
   }
-  String msgstr = MsgServer_Get1stMessage(g_owner.nickName);
+  String msgstr = MsgServer_Get1stMessage(rcver);
 
   debug_outputDebugString("proc_get", "msgstr:" + msgstr);
 ;
 
-  bool isScrt = MsgServer_GetIsSecretOf1stMessage(g_owner.nickName);
+  bool isScrt = MsgServer_GetIsSecretOf1stMessage(rcver);
 
   // the message is removed here
-  MsgServer_Remove1stMessage(g_owner.nickName);
+  MsgServer_Remove1stMessage(rcver);
 
   String reply = kCmdList[CMD_GET] + "," + msgstr;
   Serial.println(reply);
