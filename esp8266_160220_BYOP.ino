@@ -6,6 +6,7 @@
 
 
 /*
+ *  - fix bug > proc_get() > mistake in secret message display on LCD
  * v0.22 2016 Feb. 26
  *  - hide secret message (do not show on LCD)
  *    + update proc_get()
@@ -190,16 +191,15 @@ bool proc_get(String csvline)
 
   bool isScrt = MsgServer_GetIsSecretOf1stMessage(g_owner.nickName);
 
-#if 1
+  // the message is removed here
   MsgServer_Remove1stMessage(g_owner.nickName);
-#endif
 
   String reply = kCmdList[CMD_GET] + "," + msgstr;
   Serial.println(reply);
 
   if (isScrt) {
     // replace message in order not to show the message
-    msgstr = "smsg,posted";       
+    msgstr = "smsg,rcvd";
   }
   AQM0802_Clear();
   AQM0802_PutMessage(msgstr, /* x_st1=*/1, /* y_st1=*/1);  
