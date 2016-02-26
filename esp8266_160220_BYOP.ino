@@ -6,6 +6,7 @@
 
 
 /*
+ *  - start using EEPROM.h instead of FS.h
  * v0.25 2016 Feb. 27
  *  - problem: include <FS.h> cause invisibility of other library functions
  *  - filesysLib: add File_init()
@@ -102,6 +103,7 @@
  *  - add serial setup
  */
 
+#include <EEPROM.h>
 #include <Wire.h> // for 8x2 LCD
 #include "dataStructure.h"
 
@@ -131,6 +133,7 @@ void debug_outputDebugString(String prefix, String msg)
 void setup() {
   Serial.begin(115200); 
   Wire.begin();
+  FileSys_init();
   AQM0802_Initialize(/* cursorOn=*/true, /* cursorPosOn=*/true, /* contrast=*/7);
 //  Test_AQM0802_cursorOn_posOff_contrastLow();
 //  Test_AQM0802_cursorOn_posOn_contrastLow();

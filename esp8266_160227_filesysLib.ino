@@ -2,16 +2,19 @@
 // File System Library
 
 // TODO: 0c > some problem including <FS.h>, which cause invisibility for other library functions
+// instead, use EEPROM library (2016 Feb. 27)
 
 //#include <FS.h>
+#include <EEPROM.h>
 
 /*
-Fils sytem using [SPIFFS].
+Fils sytem
 Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 */
 
-
 /*
+ * v0.3 2016 Feb. 27
+ *  - add FileSys_write_uint8_t()
  * v0.2 2016 Feb. 27
  *  - add File_init()
  * v0.1 2016 Feb. 27
@@ -19,13 +22,18 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
  */
 
 
-bool FileSys_init()
+static const int kMaxsizeFileSystem = 100; // TOOD: 0m > check size (byte?)
+
+void FileSys_init()
 {
-//	bool res = SPIFFS.begin();
-#if 1	
-	return false;
-#else
-	return res;
-#endif	
+	EEPROM.begin(kMaxsizeFileSystem);
 }
+
+void FileSys_write_uint8_t(uint8_t addr, uint8_t srcval)
+{
+	EEPROM.write(addr, srcval);
+	EEPROM.commit();
+}
+
+
 
