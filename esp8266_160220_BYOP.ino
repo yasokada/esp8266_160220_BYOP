@@ -6,6 +6,9 @@
 
 
 /*
+ * v0.25 2016 Feb. 27
+ *  - problem: include <FS.h> cause invisibility of other library functions
+ *  - filesysLib: add File_init()
  *  - add (filesysLib)
  * v0.24 2016 Feb. 27
  *  - update proc_clear() to call MsgServer_Clear()
