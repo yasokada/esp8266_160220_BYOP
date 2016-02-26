@@ -6,6 +6,7 @@
 
 
 /*
+ *  - update proc_get() > add 3rd parameter [isSecret(0|1)] (ref. protocol v0.7)
  *  - fix bug > proc_get() > mistake in secret message display on LCD
  * v0.22 2016 Feb. 26
  *  - hide secret message (do not show on LCD)
@@ -197,6 +198,11 @@ bool proc_get(String csvline)
   MsgServer_Remove1stMessage(rcver);
 
   String reply = kCmdList[CMD_GET] + "," + msgstr;
+  if (isScrt) {
+    reply = reply + ",1";
+  } else {
+    reply = reply + ",0";    
+  }
   Serial.println(reply);
 
   if (isScrt) {
