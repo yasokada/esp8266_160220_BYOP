@@ -6,6 +6,7 @@
 
 
 /*
+ *  - update proc_clear() to call MsgServer_Clear()
  *  - add [kAuthorizationCode], which is used to protect to clear all the messages
  * v0.23 2016 Feb. 27
  *  - add [CMD_ALL_CLEAR] in Serial command
@@ -102,7 +103,7 @@
 //-------------------------------------------------------------------------
 // static declarations and enums
 
-// serail number of the 1st commit of esp8266_160220_BYOP
+// serail number of the 1st commit of [esp8266_160220_BYOP]
 static const String kAuthorizationCode = "7975f53";
 
 //-------------------------------------------------------------------------
@@ -263,7 +264,14 @@ bool proc_clear(String csvline)
 
   debug_outputDebugString("proc_clear", "Line263 > cleared");
 
-  // TODO: 0m > clear_allMessages()
+  MsgServer_Clear(); /*******/
+
+  String reply = kCmdList[CMD_ALL_CLEAR] + ",ok";
+  Serial.println(reply);
+
+  AQM0802_Clear();
+  AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
+
   return true;
 }
 
