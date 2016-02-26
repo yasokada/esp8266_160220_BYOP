@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.23 2016 Feb. 27
+ *  - add [CMD_ALL_CLEAR] in Serial command
  *  - update proc_get() > add 3rd parameter [isSecret(0|1)] (ref. protocol v0.7)
  *  - fix bug > proc_get() > mistake in secret message display on LCD
  * v0.22 2016 Feb. 26
@@ -244,6 +246,11 @@ bool proc_bye(String csvline)
 
   AQM0802_Clear();
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
+}
+
+bool proc_clear(String csvline)
+{
+  debug_outputDebugString("proc_clear", "Line251 > start");
 }
 
 

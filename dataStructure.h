@@ -1,6 +1,11 @@
 #ifndef DATA_STRUCTURE_H
 #define DATA_STRUCTURE_H
 
+/*
+ * v0.2 2016 Feb. 27
+ *   - add [CMD_ALL_CLEAR]
+ */
+
 // Information of owner
 typedef struct tag_pizero_owner_t { 
   String serialNo;
@@ -13,6 +18,7 @@ String kCmdList[] = {
   "get",
   "post",
   "bye",
+  "clear", // not for normal use
 };
 
 enum tag_CMD_e {
@@ -21,8 +27,9 @@ enum tag_CMD_e {
   CMD_GET,
   CMD_POST,
   CMD_BYE,
+  CMD_ALL_CLEAR, // not for normal use
   // below is special index
-  SIZE_CMD = CMD_BYE + 1,
+  SIZE_CMD,
 } CMD_e;
 
 enum tag_POST_IDX_e {
