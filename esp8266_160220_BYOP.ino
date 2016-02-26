@@ -276,4 +276,3 @@ bool proc_clear(String csvline)
 }
 
 
-// TODO: 0m > add CMD_CLEAR to clear all messages (need some protection)
