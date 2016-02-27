@@ -144,6 +144,11 @@ void setup() {
   Serial.begin(115200); 
   Wire.begin();
   FileSys_init();
+
+#if 1
+  MsgServer_Load();
+#endif
+
   AQM0802_Initialize(/* cursorOn=*/true, /* cursorPosOn=*/true, /* contrast=*/7);
 //  Test_AQM0802_cursorOn_posOff_contrastLow();
 //  Test_AQM0802_cursorOn_posOn_contrastLow();
@@ -156,6 +161,9 @@ void loop() {
   String rcvd = Serial_readCommand();
   if (rcvd.length() > 0) {
     Serial_replyToCommand(rcvd);
+#if 1
+    MsgServer_Save(); // TODO: 0m > where to trigger saving?
+#endif
   }
 }
 

@@ -6,6 +6,7 @@
 
 /*
  * v0.11 2016 Feb. 23
+ *  - fix MsgServer_Load() > assign to s_messageCount
  *  - add message save/load
  *		+ add Test_MsgServer_SaveLoad()
  *		+ add MsgServer_Load();
@@ -202,6 +203,7 @@ void MsgServer_Load()
 	int startaddr = 0; // start address of the write
 
 	int lstcnt = FileSys_read_uint8_t(startaddr++);
+	s_messageCount = lstcnt;
 
 	uint8_t len;
 	for(int idx=0; idx < lstcnt; idx++) {
@@ -219,7 +221,8 @@ void MsgServer_Load()
 		String istr = extractCsvRow(rdstr, 4);
 		s_messageList[idx].isSecret = (bool)istr.toInt();
 
-		debug_outputDebugString("MsgServer_Save", "Line210 > " + rdstr);
+		debug_outputDebugString("MsgServer_Load", "Line221 > " + rdstr);
+		debug_outputDebugString("MsgServer_Load", "Line223 > " + s_messageList[idx].receiverName);
 	}
 }
 
