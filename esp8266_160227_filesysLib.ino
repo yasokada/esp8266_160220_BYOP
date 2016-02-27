@@ -1,14 +1,14 @@
 
 // File System Library
 
-// TODO: 0c > some problem including <FS.h>, which cause invisibility for other library functions
-// instead, use EEPROM library (2016 Feb. 27)
+// some problem including <FS.h>, which cause invisibility for other library functions
+// instead, start using EEPROM library (2016 Feb. 27)
 
 //#include <FS.h>
 #include <EEPROM.h>
 
 /*
-Fils sytem
+File system
 Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 */
 
