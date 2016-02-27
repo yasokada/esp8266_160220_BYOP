@@ -13,6 +13,12 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 */
 
 /*
+ * v0.7 2016 Feb. 27
+ *  - add read/write String
+ *		+ add Test_read_write_String()
+ *  	+ add FileSys_readString()
+ *  	+ add FileSys_writeString()
+ * v0.6 2016 Feb. 27
  *  - add read/write multiple data
  *		+ add Test_read_write_data()
  *      + add FileSys_readData()
@@ -129,5 +135,120 @@ void Test_read_write_data()
 		int val = data[idx];
 		debug_outputDebugString("Test_read_write_data", "Line128 > val:" + String(data[idx]));
 	}
+}
+
+//---
+
+
+void FileSys_writeString(uint8_t strtadr, String wrstr)
+{
+	char wrdat[1000]; // 1000: arbitrary
+
+	int len = wrstr.length();
+	wrstr.toCharArray(wrdat, len);
+
+	uint8_t pos = strtadr;
+	// 1. write size 
+	FileSys_write_uint8_t( pos++, len );
+
+	// 2. write strings
+	for(int idx=0; idx < len; idx++) {
+		FileSys_write_uint8_t( pos++, wrdat[idx] );
+	}
+	FileSys_commit();
+}
+
+String FileSys_readString(uint8_t strtadr)
+{
+	char rddat[1000]; // 1000: arbitrary
+
+	uint8_t pos = strtadr;
+
+	// 1. read size
+	int len = FileSys_read_uint8_t(pos++);
+	if (len == 0) {
+		return "";
+	}
+
+	// 2. read strings
+	for(int idx=0; idx < len; idx++) {
+		rddat[idx] = FileSys_read_uint8_t(pos++);
+	}
+
+	return String(rddat);
+}
+
+void Test_read_write_String()
+{
+	debug_outputDebugString("Test_read_write_String", "start");
+
+	uint8_t strtadr = 0; // start address
+	String datstr = "Hello,7of9,This is Vital.";
+
+	FileSys_writeString(strtadr, datstr);
+
+	datstr = "";
+	debug_outputDebugString("Test_read_write_String", "Line191 > " + datstr);
+
+	datstr = FileSys_readString(strtadr);
+	debug_outputDebugString("Test_read_write_String", "Line194 > " + datstr);
+}
+
+//---
+
+void Test_read_write_structeredData()
+{
+	typedef struct _tag_dmystrct {
+		String name;
+		bool isSecret;
+		uint8_t u8val;
+		String suffix;
+	} dmystrct_t;
+
+	dmystrct_t data[2];
+
+	// set
+	// - 1st
+	data[0].name = "7of9";
+	data[0].isSecret = 1;
+	data[0].u8val = 79;
+	data[0].suffix = "Resistance is futile.";
+	// - 2nd
+	data[1].name = "Vital";
+	data[1].isSecret = 0;
+	data[1].u8val = 47;
+	data[1].suffix = "Over my dead body.";
+
+	String wrstr = "";
+	uint8_t wrdat[1000];
+	for(int idx=0; idx < 2; idx++) {
+		// TODO: 0c > prepare wrstr
+	}
+	debug_outputDebugString("Test_read_write_structeredData", "Line169 > " + wrstr);
+
+	uint8_t len = wrstr.length(); // 56
+	debug_outputDebugString("Test_read_write_structeredData", "Line172 > " + String(len));
+
+	uint8_t strtadr = 0; // start address
+	FileSys_writeData(strtadr, len, (uint8_t*)&data[0]);
+
+	// clear
+	// - 1st
+	data[0].name = "";
+	data[0].isSecret = 0;
+	data[0].u8val = 0;
+	data[0].suffix = "";
+	// - 2nd
+	data[1].name = "";
+	data[1].isSecret = 0;
+	data[1].u8val = 0;
+	data[1].suffix = "";
+
+	len = sizeof(data); // 56
+	debug_outputDebugString("Test_read_write_structeredData", "Line178 > " + String(len));
+
+#if 0
+	FileSys_readData(strtadr, len, (uint8_t*)&rddat[0]);
+#endif
 
 }

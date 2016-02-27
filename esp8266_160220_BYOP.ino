@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.28 2016 Feb. 27
+ *  - filesysLib: add read/write String
  * v0.27 2016 Feb. 27
  *  - filesysLib: add read/write multiple data
  * v0.26 2016 Feb. 27
@@ -178,7 +180,9 @@ bool proc_hello(String csvline)
 
 #if 1
   // TODO: 0a > remove Test_read_write_uint8_t() when tested
-  Test_read_write_data();
+  // Test_read_write_structeredData();
+  Test_read_write_String();
+  // Test_read_write_data();
   // Test_read_write_uint8_t();
 #endif
 
