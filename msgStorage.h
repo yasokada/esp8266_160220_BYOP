@@ -13,11 +13,3 @@ typedef struct tag_message_t {
 
 #endif 
 
-
-
-// TODO: 0m > remove below ( used for reference in implementation)
-/*
-static const int kMaxnum_MessageCount = 10; // TODO: 0m > check memory size
-static message_t s_messageList[kMaxnum_MessageCount];
-static int s_messageCount = 0;
-*/
