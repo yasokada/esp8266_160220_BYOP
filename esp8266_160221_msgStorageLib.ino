@@ -172,7 +172,7 @@ bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, b
 
 void MsgServer_Save()
 {
-	debug_outputDebugString("MsgServer_Save", "Line169 > start");	
+//	debug_outputDebugString("MsgServer_Save", "Line169 > start");	
 
 	int startaddr = 0; // start address of the write
 
@@ -191,14 +191,14 @@ void MsgServer_Save()
 		startaddr += wrstr.length();
 		startaddr++; // for terminator
 
-		debug_outputDebugString("MsgServer_Save", "Line185 > " + wrstr);
+//		debug_outputDebugString("MsgServer_Save", "Line185 > " + wrstr);
 	}
 
 }
 
 void MsgServer_Load()
 {
-	debug_outputDebugString("MsgServer_Load", "Line174 > start");
+//	debug_outputDebugString("MsgServer_Load", "Line174 > start");
 
 	int startaddr = 0; // start address of the write
 
@@ -221,8 +221,8 @@ void MsgServer_Load()
 		String istr = extractCsvRow(rdstr, 4);
 		s_messageList[idx].isSecret = (bool)istr.toInt();
 
-		debug_outputDebugString("MsgServer_Load", "Line221 > " + rdstr);
-		debug_outputDebugString("MsgServer_Load", "Line223 > " + s_messageList[idx].receiverName);
+//		debug_outputDebugString("MsgServer_Load", "Line221 > " + rdstr);
+//		debug_outputDebugString("MsgServer_Load", "Line223 > " + s_messageList[idx].receiverName);
 	}
 }
 
