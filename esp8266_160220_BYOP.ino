@@ -6,6 +6,7 @@
 
 
 /*
+ *  - filesysLib: add message save/load
  * v0.28 2016 Feb. 27
  *  - fix Test_read_write_structeredData()
  *  - filesysLib: add Test_read_write_structeredData()
@@ -180,9 +181,10 @@ bool proc_hello(String csvline)
   AQM0802_Clear();
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);
 
-#if 1
+#if 0
   // TODO: 0a > remove Test_read_write_uint8_t() when tested
-  Test_read_write_structeredData();
+  Test_MsgServer_SaveLoad();
+  // Test_read_write_structeredData();
   // Test_read_write_String();
   // Test_read_write_data();
   // Test_read_write_uint8_t();

@@ -5,6 +5,11 @@
 #include "msgStorage.h"
 
 /*
+ * v0.11 2016 Feb. 23
+ *  - add message save/load
+ *		+ add Test_MsgServer_SaveLoad()
+ *		+ add MsgServer_Load();
+ *		+ add MsgServer_Save();
  * v0.10 2016 Feb. 23
  *  - add MsgServer_GetIsSecretOf1stMessage()
  * v0.9 2016 Feb. 23
@@ -49,10 +54,10 @@ static int s_messageCount = 0;
 static const message_t s_dummyMsg[] =
 {
 	// senderSerial, senderName, receiverName, message, isSecret 
-	{ "000000000000000d", "7of9", "Vital", "hello,Vital", 0 },
-	{ "000000000000002g", "Vital", "7of9", "hello,7of9", 0 },
+	{ "000000000000000d", "7of9", "Vital", "hello_Vital", 0 },
+	{ "000000000000002g", "Vital", "7of9", "hello_7of9", 0 },
 	{ "000000000000000d", "7of9", "Vital", "meet at the Arctic", 1 },
-	{ "000000000000002g", "Vital", "7of9", "No,thank you.", 1 },
+	{ "000000000000002g", "Vital", "7of9", "No_thank you.", 1 },
 };
 //-------------------------------------------------------------------------
 
@@ -164,6 +169,59 @@ bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, b
 	s_messageCount++;
 }
 
+void MsgServer_Save()
+{
+	debug_outputDebugString("MsgServer_Save", "Line169 > start");	
+
+	int startaddr = 0; // start address of the write
+
+	// 1. write count
+	FileSys_write_uint8_t(startaddr++, s_messageCount);
+
+	// 2. write list
+	for(int idx=0; idx < s_messageCount; idx++) {
+		String wrstr = "";
+		wrstr = wrstr + s_messageList[idx].senderSerial
+			+ "," + s_messageList[idx].senderName
+			+ "," + s_messageList[idx].receiverName
+			+ "," + s_messageList[idx].message
+			+ "," + String(s_messageList[idx].isSecret);
+		FileSys_writeString(startaddr, wrstr);
+		startaddr += wrstr.length();
+		startaddr++; // for terminator
+
+		debug_outputDebugString("MsgServer_Save", "Line185 > " + wrstr);
+	}
+
+}
+
+void MsgServer_Load()
+{
+	debug_outputDebugString("MsgServer_Load", "Line174 > start");
+
+	int startaddr = 0; // start address of the write
+
+	int lstcnt = FileSys_read_uint8_t(startaddr++);
+
+	uint8_t len;
+	for(int idx=0; idx < lstcnt; idx++) {
+		String rdstr = FileSys_readString(startaddr, &len);
+		startaddr += len;
+		startaddr++; // for terminator
+
+		if (rdstr.length() == 0) {
+			continue;
+		}
+		s_messageList[idx].senderSerial = extractCsvRow(rdstr, 0);
+		s_messageList[idx].senderName = extractCsvRow(rdstr, 1);
+		s_messageList[idx].receiverName = extractCsvRow(rdstr, 2);
+		s_messageList[idx].message = extractCsvRow(rdstr, 3);
+		String istr = extractCsvRow(rdstr, 4);
+		s_messageList[idx].isSecret = (bool)istr.toInt();
+
+		debug_outputDebugString("MsgServer_Save", "Line210 > " + rdstr);
+	}
+}
 
 //-------------------------------------------------------------------------
 // test functions
@@ -268,4 +326,19 @@ void Test_MsgServer_Clear()
 	msgCnt = MsgServer_GetMessageCount(iam);
 	msg1 = "Count:" + String(msgCnt);
 	debug_outputDebugString("Test_MsgServer_Clear", "Line259 > " + msg1);	
+}
+
+void Test_MsgServer_SaveLoad()
+{
+	Test_MsgServer_setupDummyMessages();
+
+	MsgServer_Save();
+
+	debug_outputDebugString("Test_MsgServer_SaveLoad", "Line325 > " + s_messageList[0].message);
+
+	MsgServer_Clear();
+	debug_outputDebugString("Test_MsgServer_SaveLoad", "Line327 > " + s_messageList[0].message);
+
+	MsgServer_Load();
+	debug_outputDebugString("Test_MsgServer_SaveLoad", "Line331 > " + s_messageList[0].message);
 }
