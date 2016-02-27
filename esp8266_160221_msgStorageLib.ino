@@ -6,6 +6,7 @@
 
 /*
  * v0.11 2016 Feb. 23
+ *	- fix MsgServer_Save() > for s_messageCount==0, FileSys_commit() was necessary
  *  - fix MsgServer_Load() > assign to s_messageCount
  *  - add message save/load
  *		+ add Test_MsgServer_SaveLoad()
@@ -178,6 +179,7 @@ void MsgServer_Save()
 
 	// 1. write count
 	FileSys_write_uint8_t(startaddr++, s_messageCount);
+	FileSys_commit(); // for the case (s_messageCount==0)
 
 	// 2. write list
 	for(int idx=0; idx < s_messageCount; idx++) {
@@ -221,7 +223,7 @@ void MsgServer_Load()
 		String istr = extractCsvRow(rdstr, 4);
 		s_messageList[idx].isSecret = (bool)istr.toInt();
 
-//		debug_outputDebugString("MsgServer_Load", "Line221 > " + rdstr);
+		debug_outputDebugString("MsgServer_Load", "Line221 > " + rdstr);
 //		debug_outputDebugString("MsgServer_Load", "Line223 > " + s_messageList[idx].receiverName);
 	}
 }

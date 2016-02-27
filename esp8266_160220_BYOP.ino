@@ -6,6 +6,7 @@
 
 
 /*
+ *  - filesysLib: fix MsgServer_Save() > for s_messageCount==0, FileSys_commit() was necessary
  *  - filesysLib: add message save/load
  * v0.28 2016 Feb. 27
  *  - fix Test_read_write_structeredData()
