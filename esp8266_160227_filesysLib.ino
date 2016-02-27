@@ -28,8 +28,7 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 
 //-------------------------------------------------------------------------
 
-static const int kMaxsizeFileSystem = 100; // TOOD: 0m > check size (byte?)
-
+static const int kMaxsizeFileSystem_byte = 100; // up to 4096 for ESP-WROOM-02
 
 //-------------------------------------------------------------------------
 // low level functions
@@ -37,7 +36,7 @@ static const int kMaxsizeFileSystem = 100; // TOOD: 0m > check size (byte?)
 // - init, terminate
 void FileSys_init()
 {
-	EEPROM.begin(kMaxsizeFileSystem);
+	EEPROM.begin(kMaxsizeFileSystem_byte);
 }
 void FileSys_terminate()
 {
