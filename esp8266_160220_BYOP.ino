@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.26 2016 Feb. 27
+ *  - filesysLib: add FileSys_terminate()
  *  - filesysLib: add read/write uint8_t()
  *  - start using EEPROM.h instead of FS.h
  * v0.25 2016 Feb. 27

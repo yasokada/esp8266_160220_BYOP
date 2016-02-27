@@ -13,6 +13,8 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 */
 
 /*
+ * v0.5 2016 Feb. 27
+ *  - add FileSys_terminate()
  * v0.4 2016 Feb. 27
  *  - add read/write uint8_t()
  *		+ add Test_read_write_uint8_t()
@@ -24,17 +26,24 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
  *  - prepare empty file
  */
 
+//-------------------------------------------------------------------------
 
 static const int kMaxsizeFileSystem = 100; // TOOD: 0m > check size (byte?)
 
+
+//-------------------------------------------------------------------------
+// low level functions
+//
+// - init, terminate
 void FileSys_init()
 {
 	EEPROM.begin(kMaxsizeFileSystem);
 }
-
-//-------------------------------------------------------------------------
-// low level functions
-
+void FileSys_terminate()
+{
+	EEPROM.end();
+}
+// - read/write
 void FileSys_write_uint8_t(uint8_t addr, uint8_t srcval)
 {
 	EEPROM.write(addr, srcval);
@@ -63,6 +72,7 @@ void Test_read_write_uint8_t()
 
 	// 2. read
 	rdval = FileSys_read_uint8_t(addr);
+
 
 //	debug_outputDebugString("Test_read_write_uint8_t","Line55 > " + String(rdval));
 }
