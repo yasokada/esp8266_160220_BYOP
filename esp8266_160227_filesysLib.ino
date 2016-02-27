@@ -32,10 +32,17 @@ void FileSys_init()
 	EEPROM.begin(kMaxsizeFileSystem);
 }
 
+//-------------------------------------------------------------------------
+// low level functions
+
 void FileSys_write_uint8_t(uint8_t addr, uint8_t srcval)
 {
 	EEPROM.write(addr, srcval);
-	EEPROM.commit();
+}
+
+void FileSys_commit()
+{
+	EEPROM.commit();	
 }
 
 uint8_t FileSys_read_uint8_t(uint8_t addr)
@@ -50,10 +57,15 @@ void Test_read_write_uint8_t()
 	uint8_t addr = 0;
 	uint8_t rdval;
 
+	// 1. write
 	FileSys_write_uint8_t(addr, wrval);
+	FileSys_commit();
+
+	// 2. read
 	rdval = FileSys_read_uint8_t(addr);
 
-	debug_outputDebugString("Test_read_write_uint8_t","Line55 > " + String(rdval));
+//	debug_outputDebugString("Test_read_write_uint8_t","Line55 > " + String(rdval));
 }
 
+//-------------------------------------------------------------------------
 

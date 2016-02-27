@@ -6,6 +6,7 @@
 
 
 /*
+ *  - filesysLib: add read/write uint8_t()
  *  - start using EEPROM.h instead of FS.h
  * v0.25 2016 Feb. 27
  *  - problem: include <FS.h> cause invisibility of other library functions
@@ -170,6 +171,11 @@ bool proc_hello(String csvline)
 
   AQM0802_Clear();
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);
+
+#if 1
+  // TODO: 0a > remove Test_read_write_uint8_t() when tested
+  Test_read_write_uint8_t();
+#endif
 
   return true;
 }
