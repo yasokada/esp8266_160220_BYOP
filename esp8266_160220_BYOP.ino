@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.28 2016 Feb. 27
+ *  - fix Test_read_write_structeredData()
  *  - filesysLib: add Test_read_write_structeredData()
  *  - filesysLib: add read/write String
  * v0.27 2016 Feb. 27

@@ -13,6 +13,8 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 */
 
 /*
+ * v0.9 2016 Feb. 27
+ *  - fix Test_read_write_structeredData()
  * v0.8 2016 Feb. 27
  *  - add Test_read_write_structeredData()
  * v0.7 2016 Feb. 27
@@ -40,7 +42,7 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 
 //-------------------------------------------------------------------------
 
-static const int kMaxsizeFileSystem_byte = 100; // up to 4096 for ESP-WROOM-02
+static const int kMaxsizeFileSystem_byte = 1024; // up to 4096k for ESP-WROOM-02
 
 //-------------------------------------------------------------------------
 // low level functions
@@ -147,16 +149,21 @@ void FileSys_writeString(uint8_t strtadr, String wrstr)
 	char wrdat[1000]; // 1000: arbitrary
 
 	int len = wrstr.length();
-	wrstr.toCharArray(wrdat, len);
+	wrstr.toCharArray(wrdat, len + 1); // 1: for terminator
+
+//	debug_outputDebugString("FileSys_writeString", "Line152>" + wrstr);;
 
 	uint8_t pos = strtadr;
 	// 1. write size 
 	FileSys_write_uint8_t( pos++, len );
 
 	// 2. write strings
+	wrstr = "";
 	for(int idx=0; idx < len; idx++) {
 		FileSys_write_uint8_t( pos++, wrdat[idx] );
+		wrstr = wrstr + wrdat[idx];
 	}
+//	debug_outputDebugString("FileSys_writeString", "Line168>" + wrstr);;
 	FileSys_commit();
 }
 
@@ -179,7 +186,7 @@ String FileSys_readString(uint8_t strtadr, uint8_t *szptr)
 	rddat[len] = 0x00; // terminator
 
 	if (szptr != NULL) {
-		*szptr = strlen(rddat);
+		*szptr = len;
 	}
 
 	return String(rddat);
@@ -214,24 +221,29 @@ void Test_read_write_structeredData()
 		String suffix;
 	} dmystrct_t;
 
-	dmystrct_t data[2];
+	dmystrct_t data[3];
 
 	// set ------------------------------------------
 	// - 1st
 	data[0].name = "7of9";
 	data[0].isSecret = 1;
 	data[0].u8val = 79;
-	data[0].suffix = "Resistance is futile...";
+	data[0].suffix = ".Resistance is futile....E";
 	// - 2nd
 	data[1].name = "Vital";
 	data[1].isSecret = 0;
 	data[1].u8val = 47;
-	data[1].suffix = "Over my dead body...";
+	data[1].suffix = "....Over my dead body....E";
+	// - 3rd
+	data[2].name = "pi";
+	data[2].isSecret = 0;
+	data[2].u8val = 31;
+	data[2].suffix = "12345678901234567890..E";
 
 	debug_outputDebugString("Test_read_write_structeredData", "Line228 > " + data[1].name);
 
 	int startaddr = 0; // start address of the write
-	for(int idx=0; idx < 2; idx++) {
+	for(int idx=0; idx < 3; idx++) {
 		String wrstr = "";
 		wrstr = wrstr + data[idx].name
 			+ "," + String(data[idx].isSecret)
@@ -239,6 +251,7 @@ void Test_read_write_structeredData()
 			+ "," + data[idx].suffix;
 		FileSys_writeString(startaddr, wrstr);
 		startaddr += wrstr.length();
+		startaddr++; // for terminator
 	}
 
 	// clear ---------------------------------------
@@ -252,17 +265,25 @@ void Test_read_write_structeredData()
 	data[1].isSecret = 0;
 	data[1].u8val = 0;
 	data[1].suffix = "";
+	// - 3rd
+	data[2].name = "";
+	data[2].isSecret = 0;
+	data[2].u8val = 0;
+	data[2].suffix = "";
 
 	debug_outputDebugString("Test_read_write_structeredData", "Line254 > " + data[1].name);
 
 	startaddr = 0; // start address of the write
 	uint8_t len;
 
-	for(int idx=0; idx < 2; idx++) {
+	for(int idx=0; idx < 3; idx++) {
 		String rdstr = "";
 		rdstr = FileSys_readString(startaddr, &len);
-		startaddr += rdstr.length();
+		startaddr += len;
+		startaddr++; // for terminator
 		debug_outputDebugString("Test_read_write_structeredData", "Line282 > " + rdstr);
 	}	
 
+	String total = String(startaddr + len);
+	debug_outputDebugString("Test_read_write_structeredData", "Line290 > " + total);
 }
