@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.29 2016 Feb. 27
+ *  - turn off all debug print
  *  - filesysLib: fix MsgServer_Save() > for s_messageCount==0, FileSys_commit() was necessary
  *  - filesysLib: add message save/load
  * v0.28 2016 Feb. 27
@@ -135,7 +137,9 @@ void debug_outputDebugString(String prefix, String msg)
 {
   // this function is used to turn off/on all the debug prints
 
+#if 0
   Serial.println("[DEBUG] " + prefix + " > " + msg);
+#endif  
 }
 
 //-------------------------------------------------------------------------
