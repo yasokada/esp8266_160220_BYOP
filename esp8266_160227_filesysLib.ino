@@ -13,6 +13,8 @@ Checked on staging 2.1.0-rc1 Arduino IDE 1.6.6 (2016 Feb. 27)
 */
 
 /*
+ * v0.8 2016 Feb. 27
+ *  - add Test_read_write_structeredData()
  * v0.7 2016 Feb. 27
  *  - add read/write String
  *  	+ add Test_read_write_String()
