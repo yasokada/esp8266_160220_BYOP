@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.12 2016 Mar. 4
+ *  - add MsgServer_GetSenderNameOf1stMessage()
  * v0.11 2016 Feb. 23
  *	- fix MsgServer_Save() > for s_messageCount==0, FileSys_commit() was necessary
  *  - fix MsgServer_Load() > assign to s_messageCount
@@ -117,6 +119,19 @@ String MsgServer_Get1stMessage(String rcver)
 		}
 	}
 	return ""; // nothing to remove
+}
+
+String MsgServer_GetSenderNameOf1stMessage(String rcver)
+{
+  // Return [senderSerial] of the 1st message for the receiver
+  //
+
+  for(int idx = 0; idx < s_messageCount; idx++) {
+    if (s_messageList[idx].receiverName == rcver) {
+      return s_messageList[idx].senderName;
+    }
+  }
+  return ""; // nothing to remove
 }
 
 void MsgServer_Remove1stMessage(String rcver)
