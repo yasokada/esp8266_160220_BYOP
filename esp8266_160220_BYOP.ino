@@ -6,6 +6,10 @@
 
 
 /*
+ * v0.30 2016 Mar. 4
+ *  - return [SenderName] in proc_get()
+ *    + update proc_get()
+ *    + msgStorageLib: add MsgServer_GetSenderNameOf1stMessage()
  * v0.29 2016 Feb. 27
  *  - turn off all debug print
  *  - filesysLib: fix MsgServer_Save() > for s_messageCount==0, FileSys_commit() was necessary
@@ -225,8 +229,10 @@ bool proc_get(String csvline)
   if (msgcnt == 0) {
     return false; // TODO: 0m > what to reply???
   }
+  String sndr = MsgServer_GetSenderNameOf1stMessage(rcver);
   String msgstr = MsgServer_Get1stMessage(rcver);
 
+  debug_outputDebugString("proc_get", "sndr:" + sndr);
   debug_outputDebugString("proc_get", "msgstr:" + msgstr);
 ;
 
@@ -237,7 +243,9 @@ bool proc_get(String csvline)
   MsgServer_Remove1stMessage(rcver);
   // ---
 
-  String reply = kCmdList[CMD_GET] + "," + msgstr;
+  String reply = kCmdList[CMD_GET];
+  reply = reply + "," + sndr;
+  reply = reply + "," + msgstr;
   if (isScrt) {
     reply = reply + ",1";
   } else {
