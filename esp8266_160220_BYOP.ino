@@ -198,15 +198,6 @@ bool proc_hello(String csvline)
   AQM0802_Clear();
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);
 
-#if 0
-  // TODO: 0a > remove Test_read_write_uint8_t() when tested
-  Test_MsgServer_SaveLoad();
-  // Test_read_write_structeredData();
-  // Test_read_write_String();
-  // Test_read_write_data();
-  // Test_read_write_uint8_t();
-#endif
-
   return true;
 }
 
