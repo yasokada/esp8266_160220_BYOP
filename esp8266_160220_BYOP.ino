@@ -6,6 +6,8 @@
 
 
 /*
+ * v0.31 2016 Mar. 5
+ *  - proc_get() takes 2000 msec wait to show the sender on LCD before the message
  * v0.30 2016 Mar. 4
  *  - return [SenderName] in proc_get()
  *    + update proc_get()
@@ -228,6 +230,12 @@ bool proc_get(String csvline)
 ;
 
   bool isScrt = MsgServer_GetIsSecretOf1stMessage(rcver);
+
+  // show sender of the message
+  String fromMsg = "from:" + sndr;
+  AQM0802_Clear();
+  AQM0802_PutMessage(fromMsg, /* x_st1=*/1, /* y_st1=*/1);  
+  delay(2000/*msec*/);
 
   // ---
   // When the user reads the message, the message is removed.
