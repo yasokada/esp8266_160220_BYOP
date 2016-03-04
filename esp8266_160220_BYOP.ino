@@ -7,6 +7,9 @@
 
 /*
  * v0.31 2016 Mar. 5
+ *  - put wait after AQM0802_Clear() so that people can sense the refresh of the message
+ *    + add delay(kWait_beforeShowLcdMessage_msec);
+ *    + add [kWait_beforeShowLcdMessage_msec]
  *  - proc_get() takes 2000 msec wait to show the sender on LCD before the message
  * v0.30 2016 Mar. 4
  *  - return [SenderName] in proc_get()
@@ -132,6 +135,9 @@
 // serail number of the 1st commit of [esp8266_160220_BYOP]
 static const String kAuthorizationCode = "7975f53";
 
+// wait
+static const int kWait_beforeShowLcdMessage_msec = 300;
+
 //-------------------------------------------------------------------------
 // extern declarations
 extern Pizero_owner_t g_owner;
@@ -198,6 +204,7 @@ bool proc_hello(String csvline)
   Serial.println(reply);
 
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);
 
   return true;
@@ -210,6 +217,7 @@ bool proc_check(String csvline)
   Serial.println(reply);
 
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
   return true;
 }
@@ -234,8 +242,9 @@ bool proc_get(String csvline)
   // show sender of the message
   String fromMsg = "from:" + sndr;
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);  
   AQM0802_PutMessage(fromMsg, /* x_st1=*/1, /* y_st1=*/1);  
-  delay(2000/*msec*/);
+  delay(2000 - kWait_beforeShowLcdMessage_msec);
 
   // ---
   // When the user reads the message, the message is removed.
@@ -257,6 +266,7 @@ bool proc_get(String csvline)
     msgstr = "smsg,rcvd";
   }
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
   AQM0802_PutMessage(msgstr, /* x_st1=*/1, /* y_st1=*/1);  
   return true;
 }
@@ -285,6 +295,7 @@ bool proc_post(String csvline)
 
   String lcdmsg = "msg,posted";
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
   AQM0802_PutMessage(lcdmsg, /* x_st1=*/1, /* y_st1=*/1);  
 
   return true;
@@ -297,6 +308,7 @@ bool proc_bye(String csvline)
   Serial.println(reply);
 
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
 }
 
@@ -317,6 +329,7 @@ bool proc_clear(String csvline)
   Serial.println(reply);
 
   AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
 
   return true;
