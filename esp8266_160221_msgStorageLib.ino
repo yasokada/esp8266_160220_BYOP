@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.14 2016 Mar. 5
+ *  - change [kMaxnum_MessageCount] from 10 to 500
  * v0.13 2016 Mar. 5
  *	- add MsgServer_GetStorageUsage()
  * v0.12 2016 Mar. 4
@@ -52,9 +54,9 @@
 //-------------------------------------------------------------------------
 // file scope static functions / variables
 
-// TODO: 0a > increate [kMaxnum_MessageCount] to 1000 or so
+// [500] is selected to work on Flash Size 512K
+static const int kMaxnum_MessageCount = 500; 
 
-static const int kMaxnum_MessageCount = 10; // TODO: 0m > check memory size
 static message_t s_messageList[kMaxnum_MessageCount];
 static int s_messageCount = 0;
 //-------------------------------------------------------------------------

@@ -7,7 +7,8 @@
 
 /*
  * v0.32 2016 Mar. 5
- *  - add command to show storage usage
+ *  - msgStorageLib: change [kMaxnum_MessageCount] from 10 to 500
+ *  - add command [ADMIN_CMD_STORAGE] to show storage usage
  *    + UARTlib: add ADMIN_CMD_STORAGE
  *    + msgStorageLib: add MsgServer_GetStorageUsage()
  *    + dataStructure.h: add [ADMIN_CMD_STORAGE]
