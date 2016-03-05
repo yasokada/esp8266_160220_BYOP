@@ -3,7 +3,7 @@
 
 /*
  * v0.2 2016 Feb. 27
- *   - add CMD_ALL_CLEAR
+ *   - add ADMIN_CMD_ALL_CLEAR
  * v0.1 2016 Feb 20
  *   - add [kCodeCR], [kCodeLF], [s_serialReceiveBuff], [s_serialClearOnNext]
  *   - add Serial_readCommand()
@@ -78,7 +78,7 @@ void Serial_replyToCommand(String cmdline)
   case CMD_BYE:
     proc_bye(cmdline);
     break;
-  case CMD_ALL_CLEAR:
+  case ADMIN_CMD_ALL_CLEAR:
     proc_clear(cmdline);
     break;
   default:

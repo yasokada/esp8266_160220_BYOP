@@ -37,7 +37,7 @@
  *  - update proc_clear() to call MsgServer_Clear()
  *  - add [kAuthorizationCode], which is used to protect to clear all the messages
  * v0.23 2016 Feb. 27
- *  - add [CMD_ALL_CLEAR] in Serial command
+ *  - add [ADMIN_CMD_ALL_CLEAR] in Serial command
  *  - update proc_get() > add 3rd parameter [isSecret(0|1)] (ref. protocol v0.7)
  *  - fix bug > proc_get() > mistake in secret message display on LCD
  * v0.22 2016 Feb. 26
@@ -149,7 +149,7 @@ void debug_outputDebugString(String prefix, String msg)
 {
   // this function is used to turn off/on all the debug prints
 
-#if 0
+#if 1
   Serial.println("[DEBUG] " + prefix + " > " + msg);
 #endif  
 }
@@ -325,7 +325,7 @@ bool proc_clear(String csvline)
 
   MsgServer_Clear(); /*******/
 
-  String reply = kCmdList[CMD_ALL_CLEAR] + ",ok";
+  String reply = kCmdList[ADMIN_CMD_ALL_CLEAR] + ",ok";
   Serial.println(reply);
 
   AQM0802_Clear();

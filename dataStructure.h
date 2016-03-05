@@ -3,7 +3,7 @@
 
 /*
  * v0.2 2016 Feb. 27
- *   - add [CMD_ALL_CLEAR]
+ *   - add [ADMIN_CMD_ALL_CLEAR]
  */
 
 // Information of owner
@@ -27,7 +27,8 @@ enum tag_CMD_e {
   CMD_GET,
   CMD_POST,
   CMD_BYE,
-  CMD_ALL_CLEAR, // not for normal use
+  // administrator command
+  ADMIN_CMD_ALL_CLEAR, // not for normal use
   // below is special index
   SIZE_CMD,
 } CMD_e;

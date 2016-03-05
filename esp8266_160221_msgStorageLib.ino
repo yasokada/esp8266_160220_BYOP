@@ -50,6 +50,8 @@
 //-------------------------------------------------------------------------
 // file scope static functions / variables
 
+// TODO: 0a > increate [kMaxnum_MessageCount] to 1000 or so
+
 static const int kMaxnum_MessageCount = 10; // TODO: 0m > check memory size
 static message_t s_messageList[kMaxnum_MessageCount];
 static int s_messageCount = 0;
@@ -88,6 +90,8 @@ int MsgServer_GetMessageCount(String rcver)
 	//
 	int cnt = 0;
 	for(int idx = 0; idx < s_messageCount; idx++) {
+//		String msg97 = "Line97 > " + s_messageList[idx].receiverName;
+//		debug_outputDebugString("MsgServer_GetMessageCount", msg97);
 		if (s_messageList[idx].receiverName == rcver) {
 			cnt++;
 		}
