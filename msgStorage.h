@@ -7,7 +7,7 @@ typedef struct tag_message_t {
   String senderName; // name of the sender
   String receiverName; // name of the receiver
   String message;
-  bool isSecret; // sercrete message or normal message
+  bool isSecret; // sercret message or normal message
 } message_t;
 
 
