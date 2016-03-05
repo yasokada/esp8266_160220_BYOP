@@ -13,22 +13,27 @@ typedef struct tag_pizero_owner_t {
 } Pizero_owner_t;
 
 String kCmdList[] = {
+  // 1. user command
   "hello",
   "check",
   "get",
   "post",
   "bye",
-  "clear", // not for normal use
+  // 2. administrator command
+  "clear",
+  "storage",
 };
 
 enum tag_CMD_e {
+  // 1. user command
   CMD_HELLO = 0,
   CMD_CHECK,
   CMD_GET,
   CMD_POST,
   CMD_BYE,
-  // administrator command
-  ADMIN_CMD_ALL_CLEAR, // not for normal use
+  // 2. administrator command
+  ADMIN_CMD_ALL_CLEAR,
+  ADMIN_CMD_STORAGE, 
   // below is special index
   SIZE_CMD,
 } CMD_e;

@@ -6,6 +6,11 @@
 
 
 /*
+ * v0.32 2016 Mar. 5
+ *  - add command to show storage usage
+ *    + UARTlib: add ADMIN_CMD_STORAGE
+ *    + msgStorageLib: add MsgServer_GetStorageUsage()
+ *    + dataStructure.h: add [ADMIN_CMD_STORAGE]
  * v0.31 2016 Mar. 5
  *  - put wait after AQM0802_Clear() so that people can sense the refresh of the message
  *    + add delay(kWait_beforeShowLcdMessage_msec);
@@ -333,6 +338,29 @@ bool proc_clear(String csvline)
   AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
 
   return true;
+}
+
+bool proc_storageUsage(String csvline)
+{
+  debug_outputDebugString("proc_storageUsage", "Line340 > start");
+
+  // String athcd = extractCsvRow(csvline, 1);
+  // if (athcd != kAuthorizationCode) {
+  //   return false; // error
+  // }
+
+  debug_outputDebugString("proc_storageUsage", "Line347 > cleared");
+
+  String storageUsage = MsgServer_GetStorageUsage();
+
+  String reply = kCmdList[ADMIN_CMD_STORAGE] + "," + storageUsage;
+  Serial.println(reply);
+
+  AQM0802_Clear();
+  delay(kWait_beforeShowLcdMessage_msec);
+  AQM0802_PutMessage(reply, /* x_st1=*/1, /* y_st1=*/1);  
+
+  return true;  
 }
 
 

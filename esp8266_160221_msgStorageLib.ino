@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.13 2016 Mar. 5
+ *	- add MsgServer_GetStorageUsage()
  * v0.12 2016 Mar. 4
  *  - add MsgServer_GetSenderNameOf1stMessage()
  * v0.11 2016 Feb. 23
@@ -82,6 +84,12 @@ void MsgServer_Clear()
 	}
 
 	s_messageCount = 0;
+}
+
+String MsgServer_GetStorageUsage()
+{
+	String resstr = String(s_messageCount) + "/" + String(kMaxnum_MessageCount);
+	return resstr;
 }
 
 int MsgServer_GetMessageCount(String rcver)

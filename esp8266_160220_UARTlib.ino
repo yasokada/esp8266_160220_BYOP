@@ -2,6 +2,8 @@
 // UART communication library
 
 /*
+ * v0.3 2016 Mar. 5
+ *   - add ADMIN_CMD_STORAGE
  * v0.2 2016 Feb. 27
  *   - add ADMIN_CMD_ALL_CLEAR
  * v0.1 2016 Feb 20
@@ -80,6 +82,9 @@ void Serial_replyToCommand(String cmdline)
     break;
   case ADMIN_CMD_ALL_CLEAR:
     proc_clear(cmdline);
+    break;
+  case ADMIN_CMD_STORAGE:
+    proc_storageUsage(cmdline);
     break;
   default:
     // do nothing
