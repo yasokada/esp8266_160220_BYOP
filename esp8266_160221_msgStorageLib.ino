@@ -54,10 +54,10 @@
 //-------------------------------------------------------------------------
 // file scope static functions / variables
 
-// [500] is selected to work on Flash Size 512K
-static const int kMaxnum_MessageCount = 500; 
+// [200] is selected to avoid boot problem (300 or more was not good)
+static const int kMaxnum_MessageCount = 200; 
 
-static message_t s_messageList[kMaxnum_MessageCount];
+static message_t s_messageList[kMaxnum_MessageCount] __attribute__ ((section(".noinit")));; 
 static int s_messageCount = 0;
 //-------------------------------------------------------------------------
 

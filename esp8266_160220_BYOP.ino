@@ -7,7 +7,7 @@
 
 /*
  * v0.32 2016 Mar. 5
- *  - msgStorageLib: change [kMaxnum_MessageCount] from 10 to 500
+ *  - msgStorageLib: change [kMaxnum_MessageCount] from 10 to 200
  *  - add command [ADMIN_CMD_STORAGE] to show storage usage
  *    + UARTlib: add ADMIN_CMD_STORAGE
  *    + msgStorageLib: add MsgServer_GetStorageUsage()
@@ -155,7 +155,7 @@ void debug_outputDebugString(String prefix, String msg)
 {
   // this function is used to turn off/on all the debug prints
 
-#if 1
+#if 0
   Serial.println("[DEBUG] " + prefix + " > " + msg);
 #endif  
 }
