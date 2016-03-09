@@ -6,6 +6,11 @@
 
 
 /*
+ * v0.33 2016 Mar. 9
+ *  - add [postDate] to [message_t]
+ *    + update functions using MsgServer_PostMessage()
+ *    + msgStorageLib: add [postDate] in each function
+ *    + msgStorage.h : add [postDate]
  * v0.32 2016 Mar. 5
  *  - msgStorageLib: change [kMaxnum_MessageCount] from 10 to 200
  *  - add command [ADMIN_CMD_STORAGE] to show storage usage
@@ -294,7 +299,8 @@ bool proc_post(String csvline)
   debug_outputDebugString("proc_post", "rcver:" + rcver);
   debug_outputDebugString("proc_post", "msg:" + msgstr);
 
-  MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, isSecret);
+  String postDate = extractCsvRow(csvline, POST_IDX_POSTDATE);
+  MsgServer_PostMessage(g_owner.serialNo, g_owner.nickName , rcver, msgstr, isSecret, postDate);
 
   String reply = kCmdList[CMD_POST] + ",ok";
   Serial.println(reply);

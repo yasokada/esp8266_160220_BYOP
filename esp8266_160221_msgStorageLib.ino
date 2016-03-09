@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.15 2016 Mar. 9
+ *  - add [postDate] to [message_t]
  * v0.14 2016 Mar. 5
  *  - change [kMaxnum_MessageCount] from 10 to 500
  * v0.13 2016 Mar. 5
@@ -63,11 +65,11 @@ static int s_messageCount = 0;
 
 static const message_t s_dummyMsg[] =
 {
-	// senderSerial, senderName, receiverName, message, isSecret 
-	{ "000000000000000d", "7of9", "Vital", "hello_Vital", 0 },
-	{ "000000000000002g", "Vital", "7of9", "hello_7of9", 0 },
-	{ "000000000000000d", "7of9", "Vital", "meet at the Arctic", 1 },
-	{ "000000000000002g", "Vital", "7of9", "No_thank you.", 1 },
+	// senderSerial, senderName, receiverName, message, isSecret, postDate
+	{ "000000000000000d", "7of9", "Vital", "hello_Vital", 0, "20160301"},
+	{ "000000000000002g", "Vital", "7of9", "hello_7of9", 0, "20160303", },
+	{ "000000000000000d", "7of9", "Vital", "meet at the Arctic", 1 , "20160307"},
+	{ "000000000000002g", "Vital", "7of9", "No_thank you.", 1, "20160309" },
 };
 //-------------------------------------------------------------------------
 
@@ -83,6 +85,7 @@ void MsgServer_Clear()
 		dstPtr->receiverName = "";
 		dstPtr->message = "";
 		dstPtr->isSecret = 0;
+		dstPtr->postDate = "";
 	}
 
 	s_messageCount = 0;
@@ -177,11 +180,12 @@ void MsgServer_Remove1stMessage(String rcver)
 		s_messageList[idx].receiverName = s_messageList[nextIdx].receiverName;
 		s_messageList[idx].message 		= s_messageList[nextIdx].message;
 		s_messageList[idx].isSecret 	= s_messageList[nextIdx].isSecret;
+		s_messageList[idx].postDate 	= s_messageList[nextIdx].postDate;
 	}	
 	s_messageCount--;
 }
 
-bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, bool isSecret)
+bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, bool isSecret, String postDt)
 {
 	// add message to the list
 	//
@@ -196,6 +200,7 @@ bool MsgServer_PostMessage(String srl, String snder, String rcver, String msg, b
 	s_messageList[nextIdx].receiverName = rcver;
 	s_messageList[nextIdx].message 		= msg;
 	s_messageList[nextIdx].isSecret 	= isSecret;
+	s_messageList[nextIdx].postDate 	= postDt;
 
 	s_messageCount++;
 }
@@ -217,7 +222,8 @@ void MsgServer_Save()
 			+ "," + s_messageList[idx].senderName
 			+ "," + s_messageList[idx].receiverName
 			+ "," + s_messageList[idx].message
-			+ "," + String(s_messageList[idx].isSecret);
+			+ "," + String(s_messageList[idx].isSecret)
+			+ "," + s_messageList[idx].postDate;
 		FileSys_writeString(startaddr, wrstr);
 		startaddr += wrstr.length();
 		startaddr++; // for terminator
@@ -251,6 +257,7 @@ void MsgServer_Load()
 		s_messageList[idx].message = extractCsvRow(rdstr, 3);
 		String istr = extractCsvRow(rdstr, 4);
 		s_messageList[idx].isSecret = (bool)istr.toInt();
+		s_messageList[idx].postDate = extractCsvRow(rdstr, 5);
 
 		debug_outputDebugString("MsgServer_Load", "Line221 > " + rdstr);
 //		debug_outputDebugString("MsgServer_Load", "Line223 > " + s_messageList[idx].receiverName);
@@ -270,7 +277,8 @@ void Test_MsgServer_setupDummyMessages()
 			,s_dummyMsg[idx].senderName
 			,s_dummyMsg[idx].receiverName
 			,s_dummyMsg[idx].message
-			,s_dummyMsg[idx].isSecret
+			,s_dummyMsg[idx].isSecret			
+			,s_dummyMsg[idx].postDate
 		);
 	}
 
@@ -281,6 +289,7 @@ void Test_MsgServer_setupDummyMessages()
 			+ "," + s_messageList[idx].receiverName
 			+ "," + s_messageList[idx].message
 			+ "," + s_messageList[idx].isSecret
+			+ "," + s_messageList[idx].postDate
 			;
 //		debug_outputDebugString("Test_MsgServer_setupDummyMessages", "Line79 > " + work);
 	}
@@ -296,6 +305,7 @@ void Test_MsgServer_postThenGet()
 	String rcver; // receiver
 	String msg; // message
 	bool isScr; // is secret message?
+	String postDt; // date of the post
 
 	// 1. post
 	for(int idx = 0; idx < dmysiz; idx++) {
@@ -304,7 +314,8 @@ void Test_MsgServer_postThenGet()
 		rcver = s_dummyMsg[idx].receiverName;
 		msg = s_dummyMsg[idx].message;
 		isScr = s_dummyMsg[idx].isSecret;
-		MsgServer_PostMessage(srl, snder, rcver, msg, isScr);
+		postDt = s_dummyMsg[idx].postDate;
+		MsgServer_PostMessage(srl, snder, rcver, msg, isScr, postDt);
 	}
 
 	// 2. get
@@ -337,6 +348,7 @@ void Test_MsgServer_Clear()
 	String rcver; // receiver
 	String msg; // message
 	bool isScr; // is secret message?
+	String postDt; // date of the post
 
 	// 1. post
 	for(int idx = 0; idx < dmysiz; idx++) {
@@ -345,7 +357,8 @@ void Test_MsgServer_Clear()
 		rcver = s_dummyMsg[idx].receiverName;
 		msg = s_dummyMsg[idx].message;
 		isScr = s_dummyMsg[idx].isSecret;
-		MsgServer_PostMessage(srl, snder, rcver, msg, isScr);
+		postDt = s_dummyMsg[idx].postDate;
+		MsgServer_PostMessage(srl, snder, rcver, msg, isScr, postDt);
 	}
 
 	// 2. check

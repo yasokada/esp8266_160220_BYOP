@@ -8,6 +8,7 @@ typedef struct tag_message_t {
   String receiverName; // name of the receiver
   String message;
   bool isSecret; // sercret message or normal message
+  String postDate; // date of the post
 } message_t;
 
 
