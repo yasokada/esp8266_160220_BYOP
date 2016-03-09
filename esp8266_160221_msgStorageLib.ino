@@ -5,6 +5,8 @@
 #include "msgStorage.h"
 
 /*
+ * v0.16 2016 Mar. 9
+ *  - add MsgServer_GetPostDateOf1stMessage()
  * v0.15 2016 Mar. 9
  *  - add [postDate] to [message_t]
  * v0.14 2016 Mar. 5
@@ -59,7 +61,7 @@
 // [200] is selected to avoid boot problem (300 or more was not good)
 static const int kMaxnum_MessageCount = 200; 
 
-static message_t s_messageList[kMaxnum_MessageCount] __attribute__ ((section(".noinit")));; 
+static message_t s_messageList[kMaxnum_MessageCount];
 static int s_messageCount = 0;
 //-------------------------------------------------------------------------
 
@@ -146,6 +148,16 @@ String MsgServer_GetSenderNameOf1stMessage(String rcver)
   for(int idx = 0; idx < s_messageCount; idx++) {
     if (s_messageList[idx].receiverName == rcver) {
       return s_messageList[idx].senderName;
+    }
+  }
+  return ""; // nothing to remove
+}
+
+String MsgServer_GetPostDateOf1stMessage(String rcver)
+{
+  for(int idx = 0; idx < s_messageCount; idx++) {
+    if (s_messageList[idx].receiverName == rcver) {
+      return s_messageList[idx].postDate;
     }
   }
   return ""; // nothing to remove

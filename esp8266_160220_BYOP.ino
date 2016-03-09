@@ -7,6 +7,7 @@
 
 /*
  * v0.33 2016 Mar. 9
+ *  - fix bug > proc_get()
  *  - add [postDate] to [message_t]
  *    + update functions using MsgServer_PostMessage()
  *    + msgStorageLib: add [postDate] in each function
@@ -248,6 +249,7 @@ bool proc_get(String csvline)
   debug_outputDebugString("proc_get", "msgstr:" + msgstr);
 
   bool isScrt = MsgServer_GetIsSecretOf1stMessage(rcver);
+  String postDate = MsgServer_GetPostDateOf1stMessage(rcver);
 
   // show sender of the message
   String fromMsg = "from:" + sndr;
@@ -269,6 +271,7 @@ bool proc_get(String csvline)
   } else {
     reply = reply + ",0";    
   }
+  reply = reply + "," + postDate;
   Serial.println(reply);
 
   if (isScrt) {
