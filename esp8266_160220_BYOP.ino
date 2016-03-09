@@ -246,7 +246,6 @@ bool proc_get(String csvline)
 
   debug_outputDebugString("proc_get", "sndr:" + sndr);
   debug_outputDebugString("proc_get", "msgstr:" + msgstr);
-;
 
   bool isScrt = MsgServer_GetIsSecretOf1stMessage(rcver);
 
